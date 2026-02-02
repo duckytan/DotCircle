@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点点圈 DotCircle - 项目原型图汇总</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                font-family: 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+            }
+        }
+        @layer components {
+            .phone-frame {
+                @apply relative bg-white rounded-[40px] overflow-hidden;
+                width: 375px;
+                height: 812px;
+                box-shadow: 
+                    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+                    0 0 0 1px rgba(0, 0, 0, 0.1),
+                    inset 0 0 0 12px #1a1a1a,
+                    inset 0 0 0 13px rgba(255,255,255,0.1);
+            }
+            .status-bar {
+                @apply h-12 bg-gradient-to-r from-orange-500 to-amber-400 flex items-center justify-between px-6 text-white text-xs font-semibold;
+            }
+            .tab-bar {
+                @apply h-16 bg-white border-t border-gray-100 flex items-center justify-around;
+            }
+            .nav-header {
+                @apply h-14 bg-gradient-to-r from-orange-500 to-amber-400 flex items-center justify-between px-4 text-white;
+            }
+            .package-card {
+                @apply bg-white rounded-2xl p-4 mb-3 shadow-sm border border-gray-100;
+            }
+            .credit-badge {
+                @apply px-2 py-0.5 rounded-full text-xs font-bold;
+            }
+            .btn-primary {
+                @apply bg-gradient-to-r from-orange-500 to-amber-400 text-white font-semibold py-3 px-6 rounded-xl shadow-lg shadow-orange-200;
+            }
+            .btn-secondary {
+                @apply bg-gray-100 text-gray-700 font-medium py-3 px-6 rounded-xl;
+            }
+            .stat-card {
+                @apply bg-white rounded-xl p-4 text-center shadow-sm;
+            }
+            .gradient-text {
+                @apply bg-gradient-to-r from-orange-500 to-amber-400 bg-clip-text text-transparent;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-orange-50 to-amber-50 min-h-screen">
+    
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-400 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-orange-200">
+                    ⊙
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black text-gray-900">点点圈</h1>
+                    <p class="text-sm text-gray-500 font-medium">DotCircle 项目原型图</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="px-4 py-1.5 bg-gradient-to-r from-orange-100 to-amber-100 text-orange-600 rounded-full text-sm font-bold">v1.0.0</span>
+                <span class="text-sm text-gray-400 font-medium">9个功能页面</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-[1600px] mx-auto px-4 py-8">
+        
+        <!-- Introduction -->
+        <div class="mb-12 text-center">
+            <h2 class="text-4xl font-black text-gray-900 mb-4">项目原型展示</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                点点圈是一个纯公益的腾讯元宝抽奖互助平台，通过信用体系建立良性互助生态。<br>
+                以下展示所有功能页面的手机端原型设计，采用 375×812 标准手机尺寸。
+            </p>
+        </div>
+
+        <!-- All Phone Screens -->
+        <div class="flex flex-wrap justify-center gap-8">
+            
+            <!-- ====== PAGE 1: 首页 ====== -->
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div class="flex space-x-1">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM7 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H8a1 1 0 01-1-1V7zM12 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-header">
+                        <span class="text-lg font-bold">🏠 首页</span>
+                        <button class="p-2 hover:bg-white/20 rounded-lg">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                        </button>
+                    </div>
+
+                    <div class="flex px-4 py-3 bg-white border-b border-gray-100 space-x-2">
+                        <button class="px-4 py-1.5 bg-gradient-to-r from-orange-500 to-amber-400 text-white rounded-full text-sm font-medium shadow-md">全部</button>
+                        <button class="px-4 py-1.5 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium">链接</button>
+                        <button class="px-4 py-1.5 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium">图片</button>
+                    </div>
+
+                    <div class="px-4 py-4 h-[580px] overflow-hidden bg-gray-50">
+                        <!-- Package 1 -->
+                        <div class="package-card">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-10 h-10 bg-gradient-to-br from-orange-400 to-amber-300 rounded-full flex items-center justify-center text-white font-bold shadow-md">李</div>
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="font-bold text-gray-900">李*明</span>
+                                        <span class="credit-badge bg-gradient-to-r from-yellow-400 to-amber-500 text-white shadow-sm">⭐</span>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-0.5">2分钟前</p>
+                                </div>
+                                <span class="text-2xl">🎁</span>
+                            </div>
+                            <div class="mt-3 p-3 bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl border border-orange-100">
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                                    <span class="text-sm font-bold text-gray-700">元宝抽奖链接</span>
+                                </div>
+                            </div>
+                            <div class="mt-3 flex items-center justify-between">
+                                <div class="flex items-center space-x-1">
+                                    <div class="flex -space-x-1">
+                                        <div class="w-6 h-6 bg-blue-400 rounded-full border-2 border-white"></div>
+                                        <div class="w-6 h-6 bg-green-400 rounded-full border-2 border-white"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500 ml-2">还差 <span class="font-bold text-orange-500 text-base">7人</span> 领满</span>
+                                </div>
+                                <button class="px-4 py-1.5 bg-gradient-to-r from-orange-500 to-amber-400 text-white text-sm font-bold rounded-full shadow-md shadow-orange-200">去领取</button>
+                            </div>
+                            <div class="mt-2 flex items-center text-xs text-gray-400">
+                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+                                曝光值: 85
+                            </div>
+                        </div>
+
+                        <!-- Package 2 -->
+                        <div class="package-card">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-300 rounded-full flex items-center justify-center text-white font-bold shadow-md">王</div>
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="font-bold text-gray-900">王*华</span>
+                                        <span class="credit-badge bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-sm">🏆</span>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-0.5">5分钟前</p>
+                                </div>
+                                <span class="text-2xl">📱</span>
+                            </div>
+                            <div class="mt-3 p-3 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border border-blue-100">
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4h2v-4zM8 12V8m8 4V8m-4 8v4m-4-4v4m8-4v4"/></svg>
+                                    <span class="text-sm font-bold text-gray-700">二维码图片</span>
+                                </div>
+                                <div class="w-full h-20 bg-white rounded-lg flex items-center justify-center border-2 border-dashed border-blue-200">
+                                    <div class="w-14 h-14 bg-gray-800 rounded-lg relative overflow-hidden">
+                                        <div class="absolute inset-1 grid grid-cols-5 grid-rows-5 gap-0.5">
+                                            <div class="bg-white col-span-2 row-span-2"></div>
+                                            <div class="bg-white col-span-1"></div>
+                                            <div class="bg-white col-span-2 row-span-1"></div>
+                                            <div class="bg-white row-span-2"></div>
+                                            <div class="bg-white col-span-1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 flex items-center justify-between">
+                                <div class="flex items-center space-x-1">
+                                    <div class="flex -space-x-1">
+                                        <div class="w-6 h-6 bg-red-400 rounded-full border-2 border-white"></div>
+                                        <div class="w-6 h-6 bg-yellow-400 rounded-full border-2 border-white"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500 ml-2">还差 <span class="font-bold text-orange-500 text-base">8人</span> 领满</span>
+                                </div>
+                                <button class="px-4 py-1.5 bg-gradient-to-r from-orange-500 to-amber-400 text-white text-sm font-bold rounded-full shadow-md shadow-orange-200">去领取</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="absolute bottom-20 right-4">
+                        <button class="w-14 h-14 bg-gradient-to-r from-orange-500 to-amber-400 rounded-full shadow-lg shadow-orange-300 flex items-center justify-center text-white hover:scale-105 transition-transform">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        </button>
+                    </div>
+
+                    <div class="tab-bar absolute bottom-0 w-full">
+                        <div class="flex flex-col items-center text-orange-500">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+                            <span class="text-xs mt-1 font-bold">首页</span>
+                        </div>
+                        <div class="flex flex-col items-center text-gray-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                            <span class="text-xs mt-1">榜单</span>
+                        </div>
+                        <div class="flex flex-col items-center text-gray-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                            <span class="text-xs mt-1">我的</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <p class="text-xl font-bold text-gray-900">首页</p>
+                    <p class="text-sm text-gray-500 mt-1">礼包列表 · 曝光排序</p>
+                </div>
+            </div>
+
+            <!-- ====== PAGE 2: 发布页 ====== -->
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div class="flex space-x-1">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM7 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H8a1 1 0 01-1-1V7zM12 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-header">
+                        <div class="flex items-center space-x-2">
+                            <button class="p-2 hover:bg-white/20 rounded-lg">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                            </button>
+                            <span class="text-lg font-bold">发布礼包</span>
+                        </div>
+                        <button class="text-sm font-medium px-3 py-1.5 bg-white/20 rounded-lg">规则</button>
+                    </div>
+
+                    <div class="px-4 py-6 h-[676px] overflow-y-auto bg-gray-50">
+                        <!-- Task Check -->
+                        <div class="bg-white rounded-2xl p-4 mb-4 shadow-sm border border-gray-100">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="font-bold text-gray-900">📊 今日任务</span>
+                                <span class="text-xs text-orange-500 font-medium bg-orange-50 px-2 py-1 rounded-full">进行中</span>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-gray-600">互助任务（先领2个）</span>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="flex space-x-0.5">
+                                            <div class="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+                                                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                            </div>
+                                            <div class="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+                                                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                            </div>
+                                            <div class="w-4 h-4 bg-gray-200 rounded-full"></div>
+                                        </div>
+                                        <span class="text-sm font-bold text-green-600">2/2 ✓</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-gray-600">发布额度</span>
+                                    <span class="text-sm font-bold text-gray-900">0/2</span>
+                                </div>
+                            </div>
+                            <div class="mt-3 p-3 bg-green-50 rounded-xl border border-green-100">
+                                <p class="text-sm text-green-700 font-medium text-center">✅ 任务完成！可以发布礼包了</p>
+                            </div>
+                        </div>
+
+                        <!-- Type Tabs -->
+                        <div class="flex space-x-2 mb-4">
+                            <button class="flex-1 py-3 bg-gradient-to-r from-orange-500 to-amber-400 text-white rounded-xl font-bold shadow-md">粘贴链接</button>
+                            <button class="flex-1 py-3 bg-white text-gray-600 rounded-xl font-medium border border-gray-200">上传图片</button>
+                        </div>
+
+                        <!-- Link Input -->
+                        <div class="bg-white rounded-2xl p-4 mb-4 shadow-sm border border-gray-100">
+                            <label class="block text-sm font-bold text-gray-700 mb-2">元宝抽奖链接</label>
+                            <textarea class="w-full h-24 p-3 bg-gray-50 rounded-xl text-sm border border-gray-200 focus:border-orange-500 focus:outline-none resize-none" placeholder="粘贴你的元宝抽奖链接..."></textarea>
+                            <div class="mt-2 flex items-center text-xs text-gray-400">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                支持 https://yb.tencent.com/... 格式的链接
+                            </div>
+                        </div>
+
+                        <!-- Contract Option -->
+                        <div class="bg-white rounded-2xl p-4 mb-4 shadow-sm border border-gray-100">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-5 h-5 mt-0.5 rounded border-2 border-orange-500 bg-orange-500 flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-bold text-gray-900">开启互助契约</p>
+                                    <p class="text-xs text-gray-500 mt-1">领取者需在24小时内发布自己的礼包，否则-5信用分</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button class="w-full py-4 bg-gradient-to-r from-orange-500 to-amber-400 text-white font-bold text-lg rounded-2xl shadow-lg shadow-orange-200">确认发布</button>
+                        
+                        <p class="text-center text-xs text-gray-400 mt-4">发布后需审核通过方可展示</p>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <p class="text-xl font-bold text-gray-900">发布页</p>
+                    <p class="text-sm text-gray-500 mt-1">发布礼包 · 链接/图片</p>
+                </div>
+            </div>
+
+            <!-- ====== PAGE 3: 礼包详情 ====== -->
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div class="flex space-x-1">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM7 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H8a1 1 0 01-1-1V7zM12 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-header">
+                        <div class="flex items-center space-x-2">
+                            <button class="p-2 hover:bg-white/20 rounded-lg">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                            </button>
+                            <span class="text-lg font-bold">礼包详情</span>
+                        </div>
+                        <button class="p-2 hover:bg-white/20 rounded-lg">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/></svg>
+                        </button>
+                    </div>
+
+                    <div class="h-[676px] overflow-y-auto bg-gray-50">
+                        <!-- Publisher Info -->
+                        <div class="bg-white p-4 border-b border-gray-100">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-14 h-14 bg-gradient-to-br from-orange-400 to-amber-300 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">李</div>
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="font-bold text-gray-900 text-lg">李*明</span>
+                                        <span class="credit-badge bg-gradient-to-r from-yellow-400 to-amber-500 text-white shadow-sm">⭐</span>
+                                    </div>
+                                    <p class="text-sm text-gray-500">信用良好 · 已帮助 128人</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Progress -->
+                        <div class="bg-white p-4 border-b border-gray-100">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="font-bold text-gray-900">领取进度</span>
+                                <span class="text-2xl font-black gradient-text">3/10</span>
+                            </div>
+                            <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
+                                <div class="h-full w-[30%] bg-gradient-to-r from-orange-500 to-amber-400 rounded-full"></div>
+                            </div>
+                            <div class="flex justify-between mt-2 text-xs text-gray-500">
+                                <span>已领取 3人</span>
+                                <span>还差 7人</span>
+                            </div>
+                        </div>
+
+                        <!-- Helpers -->
+                        <div class="bg-white p-4 border-b border-gray-100">
+                            <p class="font-bold text-gray-900 mb-3">已帮助的人</p>
+                            <div class="flex -space-x-2">
+                                <div class="w-10 h-10 bg-blue-400 rounded-full border-2 border-white flex items-center justify-center text-white text-xs font-bold">张</div>
+                                <div class="w-10 h-10 bg-green-400 rounded-full border-2 border-white flex items-center justify-center text-white text-xs font-bold">王</div>
+                                <div class="w-10 h-10 bg-purple-400 rounded-full border-2 border-white flex items-center justify-center text-white text-xs font-bold">刘</div>
+                                <div class="w-10 h-10 bg-gray-100 rounded-full border-2 border-white flex items-center justify-center text-gray-400 text-xs">+7</div>
+                            </div>
+                        </div>
+
+                        <!-- Gift Content -->
+                        <div class="bg-white p-4 mb-4">
+                            <p class="font-bold text-gray-900 mb-3">礼包内容</p>
+                            <div class="p-4 bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl border border-orange-100">
+                                <div class="flex items-center space-x-3 mb-3">
+                                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                                        <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-gray-900">元宝抽奖链接</p>
+                                        <p class="text-xs text-gray-500">点击领取按钮后跳转</p>
+                                    </div>
+                                </div>
+                                <div class="p-3 bg-white rounded-xl border border-orange-100">
+                                    <p class="text-xs text-gray-400 break-all">https://yb.tencent.com/fes/red/claim?...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contract Info -->
+                        <div class="bg-white p-4 mb-4">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-gray-900">互助契约已开启</p>
+                                    <p class="text-sm text-gray-500 mt-1">领取后需在24小时内发布自己的礼包，成功履约+2信用分，违约-5信用分</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Action -->
+                    <div class="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4">
+                        <button class="w-full py-4 bg-gradient-to-r from-orange-500 to-amber-400 text-white font-bold text-lg rounded-2xl shadow-lg shadow-orange-200">立即领取</button>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <p class="text-xl font-bold text-gray-900">礼包详情</p>
+                    <p class="text-sm text-gray-500 mt-1">领取确认 · 进度查看</p>
+                </div>
+            </div>
+
+            <!-- ====== PAGE 4: 我的页面 ====== -->
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div class="flex space-x-1">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM7 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H8a1 1 0 01-1-1V7zM12 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-header">
+                        <span class="text-lg font-bold">👤 我的</span>
+                        <button class="p-2 hover:bg-white/20 rounded-lg">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        </button>
+                    </div>
+
+                    <div class="h-[676px] overflow-y-auto bg-gray-50">
+                        <!-- User Card -->
+                        <div class="bg-gradient-to-br from-orange-500 to-amber-400 p-6 text-white">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-2xl font-bold text-orange-500 shadow-lg">我</div>
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="font-bold text-xl">我</span>
+                                        <span class="px-2 py-0.5 bg-white/20 rounded-full text-xs">🔹 一般</span>
+                                    </div>
+                                    <div class="flex items-baseline space-x-1 mt-1">
+                                        <span class="text-3xl font-black">60</span>
+                                        <span class="text-sm opacity-80">信用分</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between mt-6">
+                                <div class="text-center">
+                                    <p class="text-2xl font-bold">12</p>
+                                    <p class="text-xs opacity-80">累计帮助</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-2xl font-bold">5</p>
+                                    <p class="text-xs opacity-80">累计发布</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-2xl font-bold">3</p>
+                                    <p class="text-xs opacity-80">连续登录</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Daily Task -->
+                        <div class="bg-white p-4 m-4 rounded-2xl shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="font-bold text-gray-900">📊 今日任务</span>
+                                <span class="text-xs text-orange-500 font-medium">2026-02-02</span>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                        </div>
+                                        <span class="text-sm text-gray-700">互助任务</span>
+                                    </div>
+                                    <span class="text-sm font-bold text-green-600">2/2 ✓</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                                        </div>
+                                        <span class="text-sm text-gray-700">发布额度</span>
+                                    </div>
+                                    <span class="text-sm font-bold text-gray-900">0/2</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Badges -->
+                        <div class="bg-white p-4 m-4 rounded-2xl shadow-sm">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="font-bold text-gray-900">🏅 我的徽章</span>
+                                <span class="text-xs text-gray-400">2个</span>
+                            </div>
+                            <div class="flex space-x-3">
+                                <div class="w-12 h-12 bg-gradient-to-br from-yellow-300 to-amber-400 rounded-xl flex items-center justify-center text-2xl shadow-md">🏅</div>
+                                <div class="w-12 h-12 bg-gradient-to-br from-orange-300 to-red-400 rounded-xl flex items-center justify-center text-2xl shadow-md">🔥</div>
+                            </div>
+                        </div>
+
+                        <!-- Menu List -->
+                        <div class="bg-white m-4 rounded-2xl shadow-sm overflow-hidden">
+                            <div class="p-4 border-b border-gray-100 flex items-center justify-between hover:bg-gray-50">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                                    </div>
+                                    <span class="text-gray-900 font-medium">我的分享</span>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                            </div>
+                            <div class="p-4 border-b border-gray-100 flex items-center justify-between hover:bg-gray-50">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                    </div>
+                                    <span class="text-gray-900 font-medium">我的帮助</span>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                            </div>
+                            <div class="p-4 border-b border-gray-100 flex items-center justify-between hover:bg-gray-50">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                                    </div>
+                                    <span class="text-gray-900 font-medium">信用记录</span>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                            </div>
+                            <div class="p-4 border-b border-gray-100 flex items-center justify-between hover:bg-gray-50">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                                    </div>
+                                    <span class="text-gray-900 font-medium">排行榜</span>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                            </div>
+                            <div class="p-4 flex items-center justify-between hover:bg-gray-50">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    </div>
+                                    <span class="text-gray-900 font-medium">规则说明</span>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                            </div>
+                        </div>
+
+                        <div class="h-20"></div>
+                    </div>
+
+                    <div class="tab-bar absolute bottom-0 w-full">
+                        <div class="flex flex-col items-center text-gray-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                            <span class="text-xs mt-1">首页</span>
+                        </div>
+                        <div class="flex flex-col items-center text-gray-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                            <span class="text-xs mt-1">榜单</span>
+                        </div>
+                        <div class="flex flex-col items-center text-orange-500">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+                            <span class="text-xs mt-1 font-bold">我的</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <p class="text-xl font-bold text-gray-900">我的页面</p>
+                    <p class="text-sm text-gray-500 mt-1">个人中心 · 任务 · 功能入口</p>
+                </div>
+            </div>
+
+            <!-- ====== PAGE 5: 分享管理 ====== -->
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div class="flex space-x-1">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM7 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H8a1 1 0 01-1-1V7zM12 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-header">
+                        <div class="flex items-center space-x-2">
+                            <button class="p-2 hover:bg-white/20 rounded-lg">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                            </button>
+                            <span class="text-lg font-bold">我的分享</span>
+                        </div>
+                    </div>
+
+                    <div class="flex px-4 py-3 bg-white border-b border-gray-100 space-x-2">
+                        <button class="px-4 py-1.5 bg-gradient-to-r from-orange-500 to-amber-400 text-white rounded-full text-sm font-medium shadow-md">全部</button>
+                        <button class="px-4 py-1.5 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium">进行中</button>
+                        <button class="px-4 py-1.5 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium">已完成</button>
+                    </div>
+
+                    <div class="px-4 py-4 h-[580px] overflow-y-auto bg-gray-50">
+                        <!-- Active Package -->
+                        <div class="package-card">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-2xl">🎁</span>
+                                    <span class="font-bold text-gray-900">元宝抽奖</span>
+                                </div>
+                                <span class="px-2 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-bold">进行中</span>
+                            </div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-sm text-gray-500">领取进度</span>
+                                <span class="text-lg font-black gradient-text">3/10</span>
+                            </div>
+                            <div class="h-2 bg-gray-100 rounded-full overflow-hidden mb-4">
+                                <div class="h-full w-[30%] bg-gradient-to-r from-orange-500 to-amber-400 rounded-full"></div>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="flex-1 py-2 bg-orange-50 text-orange-600 rounded-xl text-sm font-medium border border-orange-200">更正领取数</button>
+                                <button class="flex-1 py-2 bg-gray-100 text-gray-600 rounded-xl text-sm font-medium">取消分享</button>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-2">发布于 2026-02-02 10:30</p>
+                        </div>
+
+                        <!-- Completed Package -->
+                        <div class="package-card">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-2xl">📱</span>
+                                    <span class="font-bold text-gray-900">二维码图片</span>
+                                </div>
+                                <span class="px-2 py-1 bg-green-100 text-green-600 rounded-full text-xs font-bold">已完成</span>
+                            </div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-sm text-gray-500">领取进度</span>
+                                <span class="text-lg font-black text-green-600">10/10 ✓</span>
+                            </div>
+                            <div class="h-2 bg-gray-100 rounded-full overflow-hidden mb-4">
+                                <div class="h-full w-full bg-green-500 rounded-full"></div>
+                            </div>
+                            <div class="p-3 bg-green-50 rounded-xl border border-green-100">
+                                <p class="text-sm text-green-700 text-center">🎉 已领满！感谢大家的帮助</p>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-2">完成于 2026-02-01 18:20</p>
+                        </div>
+
+                        <!-- Cancelled Package -->
+                        <div class="package-card opacity-70">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-2xl">🎁</span>
+                                    <span class="font-bold text-gray-900">元宝抽奖</span>
+                                </div>
+                                <span class="px-2 py-1 bg-gray-100 text-gray-500 rounded-full text-xs font-bold">已取消</span>
+                            </div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-sm text-gray-500">领取进度</span>
+                                <span class="text-lg font-bold text-gray-400">2/10</span>
+                            </div>
+                            <div class="h-2 bg-gray-100 rounded-full overflow-hidden mb-4">
+                                <div class="h-full w-[20%] bg-gray-300 rounded-full"></div>
+                            </div>
+                            <p class="text-sm text-gray-500">取消原因：已经领满了</p>
+                            <p class="text-xs text-gray-400 mt-2">取消于 2026-02-01 15:00</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <p class="text-xl font-bold text-gray-900">分享管理</p>
+                    <p class="text-sm text-gray-500 mt-1">查看 · 更正 · 取消</p>
+                </div>
+            </div>
+
+            <!-- ====== PAGE 6: 排行榜 ====== -->
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div class="flex space-x-1">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM7 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H8a1 1 0 01-1-1V7zM12 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-header">
+                        <span class="text-lg font-bold">🏆 排行榜</span>
+                        <button class="p-2 hover:bg-white/20 rounded-lg">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </button>
+                    </div>
+
+                    <div class="flex px-4 py-3 bg-white border-b border-gray-100 space-x-1 overflow-x-auto">
+                        <button class="px-3 py-1.5 bg-gradient-to-r from-orange-500 to-amber-400 text-white rounded-full text-sm font-medium shadow-md whitespace-nowrap">互助榜</button>
+                        <button class="px-3 py-1.5 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium whitespace-nowrap">信用榜</button>
+                        <button class="px-3 py-1.5 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium whitespace-nowrap">活跃榜</button>
+                        <button class="px-3 py-1.5 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium whitespace-nowrap">贡献榜</button>
+                    </div>
+
+                    <div class="h-[620px] overflow-y-auto bg-gray-50">
+                        <!-- Top 3 Podium -->
+                        <div class="bg-gradient-to-b from-orange-500 to-amber-400 p-6 pb-8">
+                            <div class="flex items-end justify-center space-x-4">
+                                <!-- 2nd -->
+                                <div class="flex flex-col items-center">
+                                    <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center text-xl font-bold text-gray-400 shadow-lg mb-2 border-2 border-gray-200">🥈</div>
+                                    <div class="w-16 h-20 bg-white/90 rounded-t-lg flex items-center justify-center">
+                                        <span class="text-2xl font-black text-gray-600">2</span>
+                                    </div>
+                                    <p class="text-white text-xs mt-2 font-medium">张*芳</p>
+                                    <p class="text-white/80 text-xs">85次</p>
+                                </div>
+                                <!-- 1st -->
+                                <div class="flex flex-col items-center">
+                                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-2xl font-bold text-yellow-500 shadow-lg mb-2 border-4 border-yellow-300">🥇</div>
+                                    <div class="w-20 h-28 bg-white rounded-t-lg flex items-center justify-center">
+                                        <span class="text-3xl font-black text-orange-500">1</span>
+                                    </div>
+                                    <p class="text-white text-sm mt-2 font-bold">李*明</p>
+                                    <p class="text-white/80 text-xs">128次</p>
+                                </div>
+                                <!-- 3rd -->
+                                <div class="flex flex-col items-center">
+                                    <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center text-xl font-bold text-orange-700 shadow-lg mb-2 border-2 border-orange-300">🥉</div>
+                                    <div class="w-16 h-16 bg-white/90 rounded-t-lg flex items-center justify-center">
+                                        <span class="text-2xl font-black text-orange-700">3</span>
+                                    </div>
+                                    <p class="text-white text-xs mt-2 font-medium">王*华</p>
+                                    <p class="text-white/80 text-xs">72次</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- List -->
+                        <div class="bg-white -mt-4 rounded-t-3xl p-4">
+                            <div class="w-12 h-1 bg-gray-200 rounded-full mx-auto mb-4"></div>
+                            
+                            <!-- Item 4 -->
+                            <div class="flex items-center p-3 border-b border-gray-100">
+                                <span class="w-8 text-center font-bold text-gray-400">4</span>
+                                <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-300 rounded-full flex items-center justify-center text-white font-bold ml-3">陈</div>
+                                <div class="flex-1 ml-3">
+                                    <p class="font-medium text-gray-900">陈*东</p>
+                                    <p class="text-xs text-gray-500">已帮助 65次</p>
+                                </div>
+                                <span class="text-sm font-bold text-orange-500">65</span>
+                            </div>
+
+                            <!-- Item 5 (Self) -->
+                            <div class="flex items-center p-3 border-b border-gray-100 bg-orange-50 rounded-xl">
+                                <span class="w-8 text-center font-bold text-orange-500">8</span>
+                                <div class="w-10 h-10 bg-gradient-to-br from-gray-400 to-gray-300 rounded-full flex items-center justify-center text-white font-bold ml-3">我</div>
+                                <div class="flex-1 ml-3">
+                                    <p class="font-medium text-gray-900">我 <span class="text-xs text-orange-500 font-bold">(你)</span></p>
+                                    <p class="text-xs text-gray-500">已帮助 12次</p>
+                                </div>
+                                <span class="text-sm font-bold text-orange-500">12</span>
+                            </div>
+
+                            <!-- Item 6 -->
+                            <div class="flex items-center p-3 border-b border-gray-100">
+                                <span class="w-8 text-center font-bold text-gray-400">9</span>
+                                <div class="w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-300 rounded-full flex items-center justify-center text-white font-bold ml-3">林</div>
+                                <div class="flex-1 ml-3">
+                                    <p class="font-medium text-gray-900">林*娜</p>
+                                    <p class="text-xs text-gray-500">已帮助 10次</p>
+                                </div>
+                                <span class="text-sm font-bold text-gray-400">10</span>
+                            </div>
+                        </div>
+                        <div class="h-20"></div>
+                    </div>
+
+                    <div class="tab-bar absolute bottom-0 w-full">
+                        <div class="flex flex-col items-center text-gray-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                            <span class="text-xs mt-1">首页</span>
+                        </div>
+                        <div class="flex flex-col items-center text-orange-500">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+                            <span class="text-xs mt-1 font-bold">榜单</span>
+                        </div>
+                        <div class="flex flex-col items-center text-gray-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                            <span class="text-xs mt-1">我的</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <p class="text-xl font-bold text-gray-900">排行榜</p>
+                    <p class="text-sm text-gray-500 mt-1">互助榜 · 信用榜 · 活跃榜</p>
+                </div>
+            </div>
+
+            <!-- ====== PAGE 7: 信用记录 ====== -->
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div class="flex space-x-1">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM7 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H8a1 1 0 01-1-1V7zM12 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-header">
+                        <div class="flex items-center space-x-2">
+                            <button class="p-2 hover:bg-white/20 rounded-lg">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                            </button>
+                            <span class="text-lg font-bold">信用记录</span>
+                        </div>
+                    </div>
+
+                    <div class="h-[676px] overflow-y-auto bg-gray-50">
+                        <!-- Credit Summary -->
+                        <div class="bg-white p-4 m-4 rounded-2xl shadow-sm">
+                            <div class="text-center mb-4">
+                                <p class="text-sm text-gray-500">当前信用分</p>
+                                <p class="text-5xl font-black gradient-text">60</p>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-bold mt-2 inline-block">🔹 一般</span>
+                            </div>
+                            <div class="flex justify-between text-center">
+                                <div>
+                                    <p class="text-lg font-bold text-green-600">+15</p>
+                                    <p class="text-xs text-gray-500">本月加分</p>
+                                </div>
+                                <div>
+                                    <p class="text-lg font-bold text-red-500">-5</p>
+                                    <p class="text-xs text-gray-500">本月扣分</p>
+                                </div>
+                                <div>
+                                    <p class="text-lg font-bold text-gray-900">20</p>
+                                    <p class="text-xs text-gray-500">总记录</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- History List -->
+                        <div class="bg-white m-4 rounded-2xl shadow-sm overflow-hidden">
+                            <div class="p-4 border-b border-gray-100">
+                                <p class="font-bold text-gray-900">变动记录</p>
+                            </div>
+
+                            <!-- Add Item -->
+                            <div class="p-4 border-b border-gray-100 flex items-center">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+                                </div>
+                                <div class="flex-1 ml-3">
+                                    <p class="font-medium text-gray-900">每日互助</p>
+                                    <p class="text-xs text-gray-500">2026-02-02 14:30</p>
+                                </div>
+                                <span class="text-lg font-bold text-green-600">+1</span>
+                            </div>
+
+                            <!-- Add Item -->
+                            <div class="p-4 border-b border-gray-100 flex items-center">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+                                </div>
+                                <div class="flex-1 ml-3">
+                                    <p class="font-medium text-gray-900">每日互助</p>
+                                    <p class="text-xs text-gray-500">2026-02-02 10:15</p>
+                                </div>
+                                <span class="text-lg font-bold text-green-600">+1</span>
+                            </div>
+
+                            <!-- Add Item -->
+                            <div class="p-4 border-b border-gray-100 flex items-center">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </div>
+                                <div class="flex-1 ml-3">
+                                    <p class="font-medium text-gray-900">连续7天互助</p>
+                                    <p class="text-xs text-gray-500">2026-02-01 00:00</p>
+                                </div>
+                                <span class="text-lg font-bold text-green-600">+5</span>
+                            </div>
+
+                            <!-- Deduct Item -->
+                            <div class="p-4 flex items-center">
+                                <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/></svg>
+                                </div>
+                                <div class="flex-1 ml-3">
+                                    <p class="font-medium text-gray-900">未履行契约</p>
+                                    <p class="text-xs text-gray-500">2026-01-28 12:00</p>
+                                </div>
+                                <span class="text-lg font-bold text-red-500">-5</span>
+                            </div>
+                        </div>
+
+                        <!-- Rules Link -->
+                        <div class="m-4 p-4 bg-blue-50 rounded-2xl border border-blue-100">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    <span class="text-sm font-medium text-blue-700">了解信用分规则</span>
+                                </div>
+                                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <p class="text-xl font-bold text-gray-900">信用记录</p>
+                    <p class="text-sm text-gray-500 mt-1">分数变动 · 规则说明</p>
+                </div>
+            </div>
+
+            <!-- ====== PAGE 8: 规则说明 ====== -->
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div class="flex space-x-1">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM7 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H8a1 1 0 01-1-1V7zM12 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-header">
+                        <div class="flex items-center space-x-2">
+                            <button class="p-2 hover:bg-white/20 rounded-lg">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                            </button>
+                            <span class="text-lg font-bold">规则说明</span>
+                        </div>
+                    </div>
+
+                    <div class="h-[676px] overflow-y-auto bg-gray-50">
+                        <!-- Basic Rules -->
+                        <div class="bg-white m-4 rounded-2xl shadow-sm p-4">
+                            <h3 class="font-bold text-gray-900 mb-3 flex items-center">
+                                <span class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mr-2">
+                                    <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </span>
+                                基本规则
+                            </h3>
+                            <div class="space-y-3 text-sm text-gray-600">
+                                <p>1. 每天先领取 <span class="font-bold text-orange-500">2个</span> 他人礼包，才能发布自己的</p>
+                                <p>2. 每人每天可发布 <span class="font-bold text-orange-500">2个</span> 礼包</p>
+                                <p>3. 每个礼包最多 <span class="font-bold text-orange-500">10人</span> 领取</p>
+                                <p>4. 信用分越高，曝光率越高</p>
+                            </div>
+                        </div>
+
+                        <!-- Credit Levels -->
+                        <div class="bg-white m-4 rounded-2xl shadow-sm p-4">
+                            <h3 class="font-bold text-gray-900 mb-3 flex items-center">
+                                <span class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center mr-2">
+                                    <svg class="w-4 h-4 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+                                </span>
+                                信用等级
+                            </h3>
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between p-2 bg-gradient-to-r from-yellow-50 to-amber-50 rounded-xl">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-lg">🏆</span>
+                                        <span class="font-bold text-gray-900">优秀</span>
+                                    </div>
+                                    <span class="text-xs font-medium text-gray-500">90-100分 · 每天3个 · 免审核</span>
+                                </div>
+                                <div class="flex items-center justify-between p-2 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-lg">⭐</span>
+                                        <span class="font-bold text-gray-900">良好</span>
+                                    </div>
+                                    <span class="text-xs font-medium text-gray-500">75-89分 · 每天2个 · 免审核</span>
+                                </div>
+                                <div class="flex items-center justify-between p-2 bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-lg">🔹</span>
+                                        <span class="font-bold text-gray-900">一般</span>
+                                    </div>
+                                    <span class="text-xs font-medium text-gray-500">60-74分 · 每天2个 · 需审核</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Credit Rules -->
+                        <div class="bg-white m-4 rounded-2xl shadow-sm p-4">
+                            <h3 class="font-bold text-gray-900 mb-3 flex items-center">
+                                <span class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-2">
+                                    <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+                                </span>
+                                加分项
+                            </h3>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between p-2 bg-green-50 rounded-lg">
+                                    <span class="text-gray-700">每日互助</span>
+                                    <span class="font-bold text-green-600">+1分/次</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-green-50 rounded-lg">
+                                    <span class="text-gray-700">连续7天互助</span>
+                                    <span class="font-bold text-green-600">+5分</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-green-50 rounded-lg">
+                                    <span class="text-gray-700">有效举报</span>
+                                    <span class="font-bold text-green-600">+3分</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white m-4 rounded-2xl shadow-sm p-4">
+                            <h3 class="font-bold text-gray-900 mb-3 flex items-center">
+                                <span class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-2">
+                                    <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/></svg>
+                                </span>
+                                扣分项
+                            </h3>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between p-2 bg-red-50 rounded-lg">
+                                    <span class="text-gray-700">虚假链接</span>
+                                    <span class="font-bold text-red-600">-20分</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-red-50 rounded-lg">
+                                    <span class="text-gray-700">未履行契约</span>
+                                    <span class="font-bold text-red-600">-5分</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-red-50 rounded-lg">
+                                    <span class="text-gray-700">恶意举报</span>
+                                    <span class="font-bold text-red-600">-2分</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <p class="text-xl font-bold text-gray-900">规则说明</p>
+                    <p class="text-sm text-gray-500 mt-1">使用规则 · 信用体系</p>
+                </div>
+            </div>
+
+            <!-- ====== PAGE 9: 举报页 ====== -->
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <div class="flex space-x-1">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM7 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H8a1 1 0 01-1-1V7zM12 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-header">
+                        <div class="flex items-center space-x-2">
+                            <button class="p-2 hover:bg-white/20 rounded-lg">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                            </button>
+                            <span class="text-lg font-bold">举报</span>
+                        </div>
+                    </div>
+
+                    <div class="h-[676px] overflow-y-auto bg-gray-50">
+                        <!-- Report Target -->
+                        <div class="bg-white p-4 border-b border-gray-100">
+                            <p class="text-sm text-gray-500 mb-2">举报对象</p>
+                            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl">
+                                <div class="w-10 h-10 bg-gradient-to-br from-orange-400 to-amber-300 rounded-full flex items-center justify-center text-white font-bold">李</div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-900">李*明的礼包</p>
+                                    <p class="text-xs text-gray-500">发布于 2分钟前</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Report Types -->
+                        <div class="bg-white m-4 rounded-2xl shadow-sm p-4">
+                            <p class="font-bold text-gray-900 mb-3">举报原因</p>
+                            <div class="space-y-2">
+                                <label class="flex items-center p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="reason" class="w-4 h-4 text-orange-500" checked>
+                                    <span class="ml-3 text-gray-700">链接无效/打不开</span>
+                                </label>
+                                <label class="flex items-center p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="reason" class="w-4 h-4 text-orange-500">
+                                    <span class="ml-3 text-gray-700">图片虚假/过期</span>
+                                </label>
+                                <label class="flex items-center p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="reason" class="w-4 h-4 text-orange-500">
+                                    <span class="ml-3 text-gray-700">领取后无奖励</span>
+                                </label>
+                                <label class="flex items-center p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="reason" class="w-4 h-4 text-orange-500">
+                                    <span class="ml-3 text-gray-700">垃圾广告信息</span>
+                                </label>
+                                <label class="flex items-center p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="reason" class="w-4 h-4 text-orange-500">
+                                    <span class="ml-3 text-gray-700">非元宝平台</span>
+                                </label>
+                                <label class="flex items-center p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="reason" class="w-4 h-4 text-orange-500">
+                                    <span class="ml-3 text-gray-700">其他问题</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="bg-white m-4 rounded-2xl shadow-sm p-4">
+                            <p class="font-bold text-gray-900 mb-3">补充说明</p>
+                            <textarea class="w-full h-24 p-3 bg-gray-50 rounded-xl text-sm border border-gray-200 focus:border-orange-500 focus:outline-none resize-none" placeholder="请描述具体问题，帮助我们核实..."></textarea>
+                        </div>
+
+                        <!-- Evidence -->
+                        <div class="bg-white m-4 rounded-2xl shadow-sm p-4">
+                            <p class="font-bold text-gray-900 mb-3">上传证据（可选）</p>
+                            <div class="w-full h-24 bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center">
+                                <svg class="w-8 h-8 text-gray-400 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                <span class="text-xs text-gray-500">点击上传截图</span>
+                            </div>
+                        </div>
+
+                        <!-- Warning -->
+                        <div class="m-4 p-4 bg-yellow-50 rounded-2xl border border-yellow-100">
+                            <div class="flex items-start space-x-2">
+                                <svg class="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                <div>
+                                    <p class="text-sm font-medium text-yellow-800">注意</p>
+                                    <p class="text-xs text-yellow-700 mt-1">虚假举报将被扣除2信用分。核实有效的举报将获得3信用分奖励。</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="m-4">
+                            <button class="w-full py-4 bg-gradient-to-r from-red-500 to-orange-500 text-white font-bold text-lg rounded-2xl shadow-lg shadow-red-200">提交举报</button>
+                        </div>
+
+                        <div class="h-8"></div>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <p class="text-xl font-bold text-gray-900">举报页</p>
+                    <p class="text-sm text-gray-500 mt-1">举报违规 · 维护生态</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Legend -->
+        <div class="mt-16 mb-8 bg-white rounded-2xl shadow-sm p-6 max-w-4xl mx-auto">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">设计说明</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                <div>
+                    <h4 class="font-bold text-gray-700 mb-2">配色方案</h4>
+                    <div class="flex items-center space-x-2 mb-1">
+                        <div class="w-4 h-4 rounded bg-gradient-to-r from-orange-500 to-amber-400"></div>
+                        <span class="text-gray-600">主色调：橙黄渐变</span>
+                    </div>
+                    <div class="flex items-center space-x-2 mb-1">
+                        <div class="w-4 h-4 rounded bg-gray-50 border"></div>
+                        <span class="text-gray-600">背景：浅灰白</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-4 h-4 rounded bg-white border shadow-sm"></div>
+                        <span class="text-gray-600">卡片：纯白</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-700 mb-2">设计原则</h4>
+                    <ul class="text-gray-600 space-y-1">
+                        <li>• 温暖友好的社交感</li>
+                        <li>• 清晰的视觉层级</li>
+                        <li>• 圆角卡片设计</li>
+                        <li>• 渐变强调重点</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-700 mb-2">交互规范</h4>
+                    <ul class="text-gray-600 space-y-1">
+                        <li>• 375×812 标准手机尺寸</li>
+                        <li>• 底部Tab导航</li>
+                        <li>• 顶部状态栏渐变</li>
+                        <li>• 统一的按钮样式</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-8 mt-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-500 text-sm">点点圈 DotCircle © 2026 - 纯公益互助平台</p>
+            <p class="text-gray-400 text-xs mt-2">文档版本 v1.0.0 | 最后更新 2026-02-02</p>
+        </div>
+    </footer>
+
+</body>
+</html>
