@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>点点圈 - 排行榜</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .leaderboard-container {
+            padding: 0 0 100px;
+        }
+        
+        .type-tabs {
+            display: flex;
+            background: white;
+            padding: 12px 16px;
+            gap: 8px;
+            overflow-x: auto;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .type-tab {
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .type-tab.active {
+            background: var(--primary-gradient);
+            color: white;
+        }
+        
+        .ranking-list {
+            padding: 16px;
+        }
+        
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: var(--radius-lg);
+            margin-bottom: 8px;
+        }
+        
+        .rank-number {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text-tertiary);
+        }
+        
+        .rank-number.top1 {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            border-radius: 50%;
+        }
+        
+        .rank-number.top2 {
+            background: linear-gradient(135deg, #9ca3af, #6b7280);
+            color: white;
+            border-radius: 50%;
+        }
+        
+        .rank-number.top3 {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: white;
+            border-radius: 50%;
+        }
+        
+        .rank-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .rank-info {
+            flex: 1;
+        }
+        
+        .rank-name {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        
+        .rank-badge {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .rank-score {
+            text-align: right;
+        }
+        
+        .rank-score .value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .rank-score .label {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="leaderboard-container">
+            <!-- 导航栏 -->
+            <div class="nav-header">
+                <div class="nav-title">🏆 排行榜</div>
+            </div>
+            
+            <!-- 类型切换 -->
+            <div class="type-tabs">
+                <div class="type-tab active" data-type="helper">互助达人</div>
+                <div class="type-tab" data-type="credit">信用之星</div>
+                <div class="type-tab" data-type="active">活跃先锋</div>
+                <div class="type-tab" data-type="contributor">贡献榜</div>
+            </div>
+            
+            <!-- 排行榜列表 -->
+            <div class="ranking-list" id="rankingList">
+                <!-- 动态加载 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部标签栏 -->
+    <div class="tab-bar">
+        <a href="index.html" class="tab-item">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+            <span class="label">首页</span>
+        </a>
+        <a href="leaderboard.html" class="tab-item active">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+            <span class="label">榜单</span>
+        </a>
+        <a href="my.html" class="tab-item">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+            </svg>
+            <span class="label">我的</span>
+        </a>
+    </div>
+    
+    <script src="js/data.js"></script>
+    <script>
+        // 初始化
+        DataManager.init()
+        
+        const state = {
+            currentType: 'helper'
+        }
+        
+        // 生成排行榜数据
+        function generateRanking(type) {
+            const users = Storage.get('users', [])
+            const currentUser = DataManager.getCurrentUser()
+            
+            let sortedUsers = [...users]
+            
+            switch (type) {
+                case 'helper':
+                    sortedUsers.sort((a, b) => (b.totalHelped || 0) - (a.totalHelped || 0))
+                    break
+                case 'credit':
+                    sortedUsers.sort((a, b) => (b.creditScore || 60) - (a.creditScore || 60))
+                    break
+                case 'active':
+                    sortedUsers.sort((a, b) => Math.random() - 0.5)
+                    break
+                case 'contributor':
+                    sortedUsers.sort((a, b) => Math.random() - 0.5)
+                    break
+            }
+            
+            return sortedUsers.slice(0, 20).map((user, index) => {
+                let score, label
+                switch (type) {
+                    case 'helper':
+                        score = user.totalHelped || 0
+                        label = '人'
+                        break
+                    case 'credit':
+                        score = user.creditScore || 60
+                        label = '分'
+                        break
+                    case 'active':
+                        score = Math.floor(Math.random() * 30) + 1
+                        label = '天'
+                        break
+                    case 'contributor':
+                        score = Math.floor(Math.random() * 50) + 1
+                        label = '个'
+                        break
+                }
+                
+                const creditInfo = Utils.getCreditLevel(user.creditScore)
+                const isSelf = user._openid === currentUser._openid
+                
+                return {
+                    rank: index + 1,
+                    user: {
+                        ...user,
+                        nickname: isSelf ? user.nickName : Utils.maskNickname(user.nickName),
+                        isSelf
+                    },
+                    score,
+                    label,
+                    creditBadge: creditInfo.badge
+                }
+            })
+        }
+        
+        // 渲染排行榜
+        function renderLeaderboard() {
+            const listEl = document.getElementById('rankingList')
+            const ranking = generateRanking(state.currentType)
+            
+            const html = ranking.map(item => `
+                <div class="ranking-item">
+                    <div class="rank-number ${item.rank <= 3 ? 'top' + item.rank : ''}">
+                        ${item.rank}
+                    </div>
+                    <img class="rank-avatar" src="${item.user.avatarUrl}" alt="">
+                    <div class="rank-info">
+                        <div class="rank-name">
+                            ${item.user.nickname} ${item.user.isSelf ? '(你)' : ''}
+                        </div>
+                        <div class="rank-badge">${item.creditBadge} 信用${Utils.getCreditLevel(item.user.creditScore).name}</div>
+                    </div>
+                    <div class="rank-score">
+                        <div class="value">${item.score}</div>
+                        <div class="label">${item.label}</div>
+                    </div>
+                </div>
+            `).join('')
+            
+            listEl.innerHTML = html
+        }
+        
+        // 切换类型
+        function switchType(type) {
+            state.currentType = type
+            
+            document.querySelectorAll('.type-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.type === type)
+            })
+            
+            renderLeaderboard()
+        }
+        
+        // 事件监听
+        document.querySelectorAll('.type-tab').forEach(tab => {
+            tab.addEventListener('click', () => switchType(tab.dataset.type))
+        })
+        
+        // 初始化
+        renderLeaderboard()
+    </script>
+</body>
+</html>

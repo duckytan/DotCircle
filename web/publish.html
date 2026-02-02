@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>点点圈 - 发布礼包</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .publish-container {
+            padding: 16px;
+        }
+        
+        /* 任务检查卡片 */
+        .task-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .task-card .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .task-card .title {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .task-card .status {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 100px;
+            background: #fef3c7;
+            color: #d97706;
+        }
+        
+        .task-card .status.completed {
+            background: #d1fae5;
+            color: #059669;
+        }
+        
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .task-item:last-child {
+            border-bottom: none;
+        }
+        
+        .task-item .label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .task-item .icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .task-item .icon.completed {
+            background: #d1fae5;
+            color: #059669;
+        }
+        
+        .task-item .icon.pending {
+            background: var(--background);
+            color: var(--text-tertiary);
+        }
+        
+        .task-item .value {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .task-item .value.completed {
+            color: #059669;
+        }
+        
+        .task-success {
+            background: #d1fae5;
+            color: #059669;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 12px;
+        }
+        
+        /* 类型切换 */
+        .type-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .type-tab {
+            flex: 1;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-weight: 500;
+            background: white;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .type-tab.active {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+        }
+        
+        /* 输入区域 */
+        .input-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .input-card .label {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 12px;
+            display: block;
+        }
+        
+        .link-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            resize: vertical;
+            background: var(--background);
+        }
+        
+        .link-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .input-hint {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+        
+        /* 图片上传 */
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-md);
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: #fff7ed;
+        }
+        
+        .upload-area .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+        
+        .upload-area .text {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .upload-preview {
+            position: relative;
+            margin-top: 12px;
+        }
+        
+        .upload-preview img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: var(--radius-md);
+        }
+        
+        .upload-preview .remove {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background: var(--error);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        /* 契约选项 */
+        .contract-option {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .contract-option .checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        
+        .contract-option .checkbox.checked {
+            background: var(--primary);
+        }
+        
+        .contract-option .checkbox svg {
+            width: 14px;
+            height: 14px;
+            color: white;
+            display: none;
+        }
+        
+        .contract-option .checkbox.checked svg {
+            display: block;
+        }
+        
+        .contract-option .content {
+            flex: 1;
+        }
+        
+        .contract-option .title {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        
+        .contract-option .desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        /* 发布按钮 */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 16px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            background: var(--border);
+            color: var(--text-tertiary);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .submit-hint {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- 导航栏 -->
+        <div class="nav-header">
+            <a href="index.html" class="back-btn">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </a>
+            <div class="nav-title">发布礼包</div>
+            <a href="rules.html" class="nav-action">规则</a>
+        </div>
+        
+        <div class="publish-container">
+            <!-- 任务检查 -->
+            <div class="task-card">
+                <div class="header">
+                    <div class="title">📊 今日任务</div>
+                    <div class="status" id="taskStatus">进行中</div>
+                </div>
+                
+                <div class="task-item">
+                    <div class="label">
+                        <div class="icon" id="helpIcon">⏳</div>
+                        <span>互助任务（先领2个）</span>
+                    </div>
+                    <div class="value" id="helpProgress">0/2</div>
+                </div>
+                
+                <div class="task-item">
+                    <div class="label">
+                        <div class="icon pending">📦</div>
+                        <span>发布额度</span>
+                    </div>
+                    <div class="value" id="publishProgress">0/2</div>
+                </div>
+                
+                <div class="task-success" id="taskSuccess" style="display: none;">
+                    ✅ 任务完成！可以发布礼包了
+                </div>
+            </div>
+            
+            <!-- 发布类型切换 -->
+            <div class="type-tabs">
+                <div class="type-tab active" data-type="link">🔗 粘贴链接</div>
+                <div class="type-tab" data-type="image">📷 上传图片</div>
+            </div>
+            
+            <!-- 链接输入 -->
+            <div class="input-card" id="linkInputArea">
+                <label class="label">元宝抽奖链接</label>
+                <textarea class="link-input" id="giftUrl" placeholder="粘贴你的元宝抽奖链接..."></textarea>
+                <div class="input-hint">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span>支持 https://yb.tencent.com/... 格式的链接</span>
+                </div>
+            </div>
+            
+            <!-- 图片上传 -->
+            <div class="input-card" id="imageInputArea" style="display: none;">
+                <label class="label">二维码图片</label>
+                <div class="upload-area" id="uploadArea">
+                    <div class="icon">📷</div>
+                    <div class="text">点击上传二维码图片</div>
+                </div>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                <div class="upload-preview" id="uploadPreview" style="display: none;">
+                    <img src="" alt="预览" id="previewImg">
+                    <div class="remove" onclick="removeImage()">×</div>
+                </div>
+            </div>
+            
+            <!-- 互助契约 -->
+            <div class="contract-option" onclick="toggleContract()">
+                <div class="checkbox checked" id="contractCheckbox">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <div class="content">
+                    <div class="title">开启互助契约</div>
+                    <div class="desc">领取者需在24小时内发布自己的礼包，成功履约+2信用分，违约-5信用分</div>
+                </div>
+            </div>
+            
+            <!-- 发布按钮 -->
+            <button class="submit-btn" id="submitBtn" onclick="submitPackage()">
+                确认发布
+            </button>
+            
+            <div class="submit-hint">发布后需审核通过方可展示</div>
+        </div>
+    </div>
+    
+    <script src="js/data.js"></script>
+    <script>
+        // 初始化
+        DataManager.init()
+        
+        // 状态
+        const state = {
+            currentType: 'link',
+            contractEnabled: true,
+            imageUrl: null
+        }
+        
+        // 获取当前用户
+        const user = DataManager.getCurrentUser()
+        
+        // 更新任务显示
+        function updateTaskStatus() {
+            const helped = user.dailyStats?.helped || 0
+            const published = user.dailyStats?.published || 0
+            const quota = user.dailyStats?.quota || 2
+            
+            // 更新互助任务
+            document.getElementById('helpProgress').textContent = `${helped}/2`
+            const helpIcon = document.getElementById('helpIcon')
+            if (helped >= 2) {
+                helpIcon.textContent = '✓'
+                helpIcon.className = 'icon completed'
+                document.getElementById('helpProgress').className = 'value completed'
+            }
+            
+            // 更新发布额度
+            document.getElementById('publishProgress').textContent = `${published}/${quota}`
+            
+            // 更新状态
+            const canPublish = helped >= 2 && published < quota
+            const statusEl = document.getElementById('taskStatus')
+            const successEl = document.getElementById('taskSuccess')
+            const submitBtn = document.getElementById('submitBtn')
+            
+            if (canPublish) {
+                statusEl.textContent = '已完成'
+                statusEl.className = 'status completed'
+                successEl.style.display = 'block'
+                submitBtn.disabled = false
+            } else {
+                statusEl.textContent = '进行中'
+                statusEl.className = 'status'
+                successEl.style.display = 'none'
+                submitBtn.disabled = true
+            }
+            
+            if (published >= quota) {
+                submitBtn.textContent = '今日发布额度已用完'
+            } else if (helped < 2) {
+                submitBtn.textContent = '请先完成互助任务'
+            } else {
+                submitBtn.textContent = '确认发布'
+            }
+        }
+        
+        // 切换发布类型
+        function switchType(type) {
+            state.currentType = type
+            
+            // 更新标签样式
+            document.querySelectorAll('.type-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.type === type)
+            })
+            
+            // 切换输入区域
+            document.getElementById('linkInputArea').style.display = type === 'link' ? 'block' : 'none'
+            document.getElementById('imageInputArea').style.display = type === 'image' ? 'block' : 'none'
+        }
+        
+        // 切换契约
+        function toggleContract() {
+            state.contractEnabled = !state.contractEnabled
+            const checkbox = document.getElementById('contractCheckbox')
+            checkbox.classList.toggle('checked', state.contractEnabled)
+        }
+        
+        // 文件上传
+        document.getElementById('uploadArea').addEventListener('click', () => {
+            document.getElementById('fileInput').click()
+        })
+        
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            const file = e.target.files[0]
+            if (file) {
+                const reader = new FileReader()
+                reader.onload = (e) => {
+                    state.imageUrl = e.target.result
+                    document.getElementById('previewImg').src = state.imageUrl
+                    document.getElementById('uploadPreview').style.display = 'block'
+                    document.getElementById('uploadArea').style.display = 'none'
+                }
+                reader.readAsDataURL(file)
+            }
+        })
+        
+        // 移除图片
+        function removeImage() {
+            state.imageUrl = null
+            document.getElementById('uploadPreview').style.display = 'none'
+            document.getElementById('uploadArea').style.display = 'block'
+            document.getElementById('fileInput').value = ''
+        }
+        
+        // 提交礼包
+        function submitPackage() {
+            const helped = user.dailyStats?.helped || 0
+            const published = user.dailyStats?.published || 0
+            const quota = user.dailyStats?.quota || 2
+            
+            if (helped < 2) {
+                Utils.showToast('请先完成互助任务', 'error')
+                return
+            }
+            
+            if (published >= quota) {
+                Utils.showToast('今日发布额度已用完', 'error')
+                return
+            }
+            
+            let data = {
+                type: state.currentType.toUpperCase(),
+                contractEnabled: state.contractEnabled
+            }
+            
+            if (state.currentType === 'link') {
+                const url = document.getElementById('giftUrl').value.trim()
+                if (!url) {
+                    Utils.showToast('请输入链接', 'error')
+                    return
+                }
+                
+                // 简单验证
+                if (!url.includes('yb.tencent.com')) {
+                    Utils.showToast('请输入有效的元宝链接', 'error')
+                    return
+                }
+                
+                data.giftUrl = url
+            } else {
+                if (!state.imageUrl) {
+                    Utils.showToast('请上传图片', 'error')
+                    return
+                }
+                data.imageUrl = state.imageUrl
+            }
+            
+            // 创建礼包
+            DataManager.createPackage(data)
+            
+            Utils.showToast('发布成功！', 'success')
+            
+            // 跳转到首页
+            setTimeout(() => {
+                window.location.href = 'index.html'
+            }, 1000)
+        }
+        
+        // 事件监听
+        document.querySelectorAll('.type-tab').forEach(tab => {
+            tab.addEventListener('click', () => switchType(tab.dataset.type))
+        })
+        
+        // 初始化
+        updateTaskStatus()
+    </script>
+</body>
+</html>

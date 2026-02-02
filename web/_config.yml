@@ -1,0 +1,31 @@
+# Jekyll 配置 - GitHub Pages 使用
+# 禁用 Jekyll 处理，因为我们使用纯静态 HTML
+
+# 站点设置
+title: 点点圈 DotCircle
+description: 纯公益的腾讯元宝抽奖互助平台
+
+# 构建设置
+# 禁用 Jekyll 的默认处理，保持文件原样
+theme: null
+
+# 排除文件
+exclude:
+  - README.md
+  - .gitignore
+
+# 启用所有 HTML 文件
+include:
+  - "*.html"
+
+# 时区
+timezone: Asia/Shanghai
+
+# 默认布局 - 禁用
+defaults:
+  -
+    scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: null

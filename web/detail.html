@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>点点圈 - 礼包详情</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .detail-container {
+            padding-bottom: 100px;
+        }
+        
+        /* 发布者信息 */
+        .publisher-section {
+            background: white;
+            padding: 20px 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .publisher-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .publisher-info {
+            flex: 1;
+        }
+        
+        .publisher-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        
+        .publisher-name .name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .publisher-name .badge {
+            font-size: 16px;
+        }
+        
+        .publisher-stats {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        /* 进度部分 */
+        .progress-section {
+            background: white;
+            padding: 20px 16px;
+            margin-top: 1px;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .progress-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .progress-count {
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: var(--background);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 5px;
+            transition: width 0.3s;
+        }
+        
+        .progress-legend {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        /* 帮助者 */
+        .helpers-section {
+            background: white;
+            padding: 20px 16px;
+            margin-top: 12px;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .helpers-avatars {
+            display: flex;
+            flex-wrap: wrap;
+            gap: -8px;
+        }
+        
+        .helper-item {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 3px solid white;
+            margin-left: -12px;
+            overflow: hidden;
+        }
+        
+        .helper-item:first-child {
+            margin-left: 0;
+        }
+        
+        .helper-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .helper-more {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+            border: 3px solid white;
+            margin-left: -12px;
+        }
+        
+        /* 礼包内容 */
+        .content-section {
+            background: white;
+            padding: 20px 16px;
+            margin-top: 12px;
+        }
+        
+        .gift-box {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border: 1px solid #fed7aa;
+            border-radius: var(--radius-lg);
+            padding: 20px;
+        }
+        
+        .gift-box.image-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-color: #bfdbfe;
+        }
+        
+        .gift-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .gift-icon {
+            width: 48px;
+            height: 48px;
+            background: white;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .gift-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        
+        .gift-subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .gift-url {
+            background: white;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            border: 1px solid #fed7aa;
+            font-size: 13px;
+            color: var(--text-tertiary);
+            word-break: break-all;
+        }
+        
+        .gift-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: var(--radius-md);
+            background: white;
+            padding: 10px;
+        }
+        
+        /* 契约信息 */
+        .contract-section {
+            background: white;
+            padding: 20px 16px;
+            margin-top: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        
+        .contract-icon {
+            width: 44px;
+            height: 44px;
+            background: #dbeafe;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .contract-content {
+            flex: 1;
+        }
+        
+        .contract-title {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+        
+        .contract-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* 底部操作 */
+        .bottom-action {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 480px;
+            margin: 0 auto;
+            background: white;
+            padding: 16px;
+            border-top: 1px solid var(--border);
+            z-index: 100;
+        }
+        
+        .action-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .action-btn:disabled {
+            background: var(--border);
+            color: var(--text-tertiary);
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="detail-container">
+            <!-- 导航栏 -->
+            <div class="nav-header">
+                <a href="index.html" class="back-btn">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </a>
+                <div class="nav-title">礼包详情</div>
+                <button class="nav-action" style="background: transparent;">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- 内容区域 -->
+            <div id="detailContent">
+                <!-- 动态加载 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部操作 -->
+    <div class="bottom-action" id="bottomAction" style="display: none;">
+        <button class="action-btn" id="actionBtn" onclick="handleAction()">立即领取</button>
+    </div>
+    
+    <script src="js/data.js"></script>
+    <script>
+        // 初始化
+        DataManager.init()
+        
+        // 获取URL参数
+        function getParam(name) {
+            const urlParams = new URLSearchParams(window.location.search)
+            return urlParams.get(name)
+        }
+        
+        const packageId = getParam('id')
+        const action = getParam('action')
+        
+        // 获取礼包数据
+        const pkg = DataManager.getPackage(packageId)
+        const currentUser = DataManager.getCurrentUser()
+        
+        if (!pkg) {
+            document.getElementById('detailContent').innerHTML = `
+                <div class="empty-state">
+                    <div class="icon">📦</div>
+                    <div class="text">礼包不存在</div>
+                </div>
+            `
+        } else {
+            renderDetail()
+        }
+        
+        function renderDetail() {
+            const creditInfo = Utils.getCreditLevel(pkg.publisher.creditScore)
+            const progressPercent = (pkg.helpCount / pkg.maxHelp) * 100
+            const remaining = pkg.maxHelp - pkg.helpCount
+            const hasHelped = pkg.helpers.some(h => h.openid === currentUser._openid)
+            const isOwner = pkg.creatorOpenid === currentUser._openid
+            
+            const html = `
+                <!-- 发布者信息 -->
+                <div class="publisher-section">
+                    <img class="publisher-avatar" src="${pkg.publisher.avatarUrl}" alt="">
+                    <div class="publisher-info">
+                        <div class="publisher-name">
+                            <span class="name">${Utils.maskNickname(pkg.publisher.nickName)}</span>
+                            <span class="badge">${creditInfo.badge}</span>
+                        </div>
+                        <div class="publisher-stats">
+                            信用${creditInfo.name} · 已帮助 ${pkg.publisher.totalHelped || 0}人
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 进度 -->
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span class="progress-title">领取进度</span>
+                        <span class="progress-count">${pkg.helpCount}/${pkg.maxHelp}</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${progressPercent}%"></div>
+                    </div>
+                    <div class="progress-legend">
+                        <span>已领取 ${pkg.helpCount}人</span>
+                        <span>还差 ${remaining}人</span>
+                    </div>
+                </div>
+                
+                <!-- 帮助者 -->
+                <div class="helpers-section">
+                    <div class="section-title">已帮助的人</div>
+                    <div class="helpers-avatars">
+                        ${pkg.helpers.slice(0, 5).map(h => `
+                            <div class="helper-item">
+                                <img src="${h.avatarUrl}" alt="">
+                            </div>
+                        `).join('')}
+                        ${pkg.helpers.length > 5 ? `
+                            <div class="helper-more">+${pkg.helpers.length - 5}</div>
+                        ` : ''}
+                    </div>
+                </div>
+                
+                <!-- 礼包内容 -->
+                <div class="content-section">
+                    <div class="section-title">礼包内容</div>
+                    <div class="gift-box ${pkg.type === 'IMAGE' ? 'image-box' : ''}">
+                        <div class="gift-header">
+                            <div class="gift-icon">${pkg.type === 'LINK' ? '🔗' : '📱'}</div>
+                            <div>
+                                <div class="gift-title">${pkg.type === 'LINK' ? '元宝抽奖链接' : '二维码图片'}</div>
+                                <div class="gift-subtitle">${pkg.type === 'LINK' ? '点击领取按钮后跳转' : '长按识别二维码'}</div>
+                            </div>
+                        </div>
+                        ${pkg.type === 'LINK' ? `
+                            <div class="gift-url">${pkg.giftUrl}</div>
+                        ` : `
+                            <img class="gift-image" src="${pkg.imageUrl}" alt="二维码">
+                        `}
+                    </div>
+                </div>
+                
+                <!-- 契约信息 -->
+                <div class="contract-section">
+                    <div class="contract-icon">✓</div>
+                    <div class="contract-content">
+                        <div class="contract-title">互助契约已开启</div>
+                        <div class="contract-desc">
+                            领取后需在24小时内发布自己的礼包，成功履约+2信用分，违约-5信用分
+                        </div>
+                    </div>
+                </div>
+            `
+            
+            document.getElementById('detailContent').innerHTML = html
+            
+            // 显示操作按钮
+            const bottomAction = document.getElementById('bottomAction')
+            const actionBtn = document.getElementById('actionBtn')
+            
+            if (isOwner) {
+                bottomAction.style.display = 'none'
+            } else if (pkg.status === 'completed') {
+                bottomAction.style.display = 'block'
+                actionBtn.textContent = '已领满'
+                actionBtn.disabled = true
+            } else if (hasHelped) {
+                bottomAction.style.display = 'block'
+                actionBtn.textContent = '已领取'
+                actionBtn.disabled = true
+                
+                // 如果action=help，自动复制链接
+                if (action === 'help' && pkg.type === 'LINK') {
+                    Utils.copyToClipboard(pkg.giftUrl).then(() => {
+                        Utils.showToast('链接已复制到剪贴板', 'success')
+                    })
+                }
+            } else {
+                bottomAction.style.display = 'block'
+                actionBtn.textContent = '立即领取'
+                actionBtn.disabled = false
+            }
+        }
+        
+        // 处理操作
+        async function handleAction() {
+            if (!pkg) return
+            
+            const result = DataManager.helpPackage(packageId)
+            
+            if (result.success) {
+                Utils.showToast('领取成功！', 'success')
+                
+                if (pkg.type === 'LINK') {
+                    // 复制链接
+                    await Utils.copyToClipboard(pkg.giftUrl)
+                    Utils.showToast('链接已复制', 'success')
+                }
+                
+                // 刷新页面
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000)
+            } else {
+                Utils.showToast(result.message, 'error')
+            }
+        }
+    </script>
+</body>
+</html>

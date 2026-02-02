@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>点点圈 - 首页</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* 首页特定样式 */
+        .header-section {
+            background: white;
+            padding-bottom: 8px;
+        }
+        
+        .package-list {
+            padding: 12px 16px;
+        }
+        
+        .package-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .publisher-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .avatar-section {
+            position: relative;
+            margin-right: 12px;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .credit-badge {
+            position: absolute;
+            bottom: -4px;
+            right: -4px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            border: 2px solid white;
+        }
+        
+        .publisher-meta {
+            flex: 1;
+        }
+        
+        .nickname {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+        
+        .publish-time {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            margin-top: 2px;
+        }
+        
+        .package-type-icon {
+            font-size: 20px;
+        }
+        
+        .package-content {
+            margin-bottom: 12px;
+        }
+        
+        .content-box {
+            border-radius: var(--radius-md);
+            padding: 12px;
+            background: var(--background);
+        }
+        
+        .content-box.link-box {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border: 1px solid #fed7aa;
+        }
+        
+        .content-box.image-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid #bfdbfe;
+        }
+        
+        .link-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .link-icon {
+            font-size: 20px;
+        }
+        
+        .link-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .image-preview {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .image-preview img {
+            max-height: 150px;
+            border-radius: var(--radius-sm);
+        }
+        
+        .package-footer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .progress-section {
+            flex: 1;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: var(--background);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+        
+        .progress-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .progress-text .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .avatar-stack {
+            display: flex;
+            align-items: center;
+        }
+        
+        .helper-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid white;
+            margin-left: -8px;
+        }
+        
+        .helper-avatar:first-child {
+            margin-left: 0;
+        }
+        
+        .more-badge {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: var(--text-secondary);
+            border: 2px solid white;
+            margin-left: -8px;
+        }
+        
+        .help-btn {
+            padding: 8px 16px;
+            background: var(--primary-gradient);
+            color: white;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .help-btn.disabled {
+            background: var(--border);
+            color: var(--text-tertiary);
+        }
+        
+        .exposure-score {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+        
+        .load-more {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- 搜索和筛选 -->
+        <div class="header-section">
+            <div class="search-bar">
+                <div class="search-input">
+                    <span class="icon">🔍</span>
+                    <input type="text" placeholder="搜索礼包" id="searchInput">
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="all">全部</div>
+                <div class="tab" data-tab="link">链接</div>
+                <div class="tab" data-tab="image">图片</div>
+            </div>
+        </div>
+        
+        <!-- 礼包列表 -->
+        <div class="package-list" id="packageList">
+            <!-- 动态加载 -->
+        </div>
+        
+        <!-- 加载更多 -->
+        <div class="load-more" id="loadMore" style="display: none;">加载更多</div>
+        <div class="loading" id="loading" style="display: none;">
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+    
+    <!-- 悬浮发布按钮 -->
+    <div class="fab" onclick="goToPublish()">+</div>
+    
+    <!-- 底部标签栏 -->
+    <div class="tab-bar">
+        <a href="index.html" class="tab-item active">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+            </svg>
+            <span class="label">首页</span>
+        </a>
+        <a href="leaderboard.html" class="tab-item">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+            <span class="label">榜单</span>
+        </a>
+        <a href="my.html" class="tab-item">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+            </svg>
+            <span class="label">我的</span>
+        </a>
+    </div>
+    
+    <script src="js/data.js"></script>
+    <script>
+        // 初始化数据
+        DataManager.init()
+        
+        // 状态管理
+        const state = {
+            currentTab: 'all',
+            page: 1,
+            limit: 10,
+            hasMore: true,
+            loading: false,
+            searchKeyword: ''
+        }
+        
+        // 格式化礼包数据
+        function formatPackage(pkg) {
+            const progressPercent = (pkg.helpCount / pkg.maxHelp) * 100
+            const remaining = pkg.maxHelp - pkg.helpCount
+            const currentUser = DataManager.getCurrentUser()
+            
+            return {
+                ...pkg,
+                progressPercent,
+                remaining,
+                publishTime: Utils.formatRelativeTime(pkg.createdAt),
+                canHelp: !pkg.helpers?.some(h => h.openid === currentUser._openid) && pkg.status === 'active',
+                recentHelpers: (pkg.helpers || []).slice(0, 3),
+                publisher: {
+                    ...pkg.publisher,
+                    nickname: Utils.maskNickname(pkg.publisher?.nickName || '用户'),
+                    creditLevel: pkg.publisher?.creditLevel || 'NORMAL',
+                    creditBadge: Utils.getCreditLevel(pkg.publisher?.creditScore || 60).badge
+                }
+            }
+        }
+        
+        // 渲染礼包列表
+        function renderPackages() {
+            const listEl = document.getElementById('packageList')
+            const loadingEl = document.getElementById('loading')
+            const loadMoreEl = document.getElementById('loadMore')
+            
+            if (state.loading && state.page === 1) {
+                listEl.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>'
+                return
+            }
+            
+            const filters = {
+                status: 'active',
+                page: state.page,
+                limit: state.limit
+            }
+            
+            if (state.currentTab !== 'all') {
+                filters.type = state.currentTab.toUpperCase()
+            }
+            
+            const result = DataManager.getPackages(filters)
+            const formattedPackages = result.list.map(formatPackage)
+            
+            const html = formattedPackages.map(pkg => `
+                <div class="package-card" onclick="goToDetail('${pkg._id}')">
+                    <div class="publisher-info">
+                        <div class="avatar-section">
+                            <img class="avatar" src="${pkg.publisher.avatarUrl}" alt="">
+                            <div class="credit-badge" style="background: ${Utils.getCreditLevel(pkg.publisher.creditScore).color}">
+                                ${pkg.publisher.creditBadge}
+                            </div>
+                        </div>
+                        <div class="publisher-meta">
+                            <div class="nickname">${pkg.publisher.nickname}</div>
+                            <div class="publish-time">${pkg.publishTime}</div>
+                        </div>
+                        <div class="package-type-icon">
+                            ${pkg.type === 'LINK' ? '🔗' : '📱'}
+                        </div>
+                    </div>
+                    
+                    <div class="package-content">
+                        <div class="content-box ${pkg.type === 'LINK' ? 'link-box' : 'image-box'}">
+                            ${pkg.type === 'LINK' ? `
+                                <div class="link-indicator">
+                                    <span class="link-icon">🔗</span>
+                                    <span class="link-text">元宝抽奖链接</span>
+                                </div>
+                            ` : `
+                                <div class="image-preview">
+                                    <img src="${pkg.imageUrl}" alt="二维码">
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                    
+                    <div class="package-footer">
+                        <div class="progress-section">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${pkg.progressPercent}%"></div>
+                            </div>
+                            <div class="progress-text">
+                                还差 <span class="highlight">${pkg.remaining}人</span> 领满
+                            </div>
+                        </div>
+                        
+                        <div class="avatar-stack">
+                            ${pkg.recentHelpers.map(h => `
+                                <img class="helper-avatar" src="${h.avatarUrl}" alt="">
+                            `).join('')}
+                            ${pkg.helpCount > 3 ? `<div class="more-badge">+${pkg.helpCount - 3}</div>` : ''}
+                        </div>
+                        
+                        <button class="help-btn ${pkg.canHelp ? '' : 'disabled'}" 
+                                onclick="event.stopPropagation(); handleHelp('${pkg._id}')"
+                                ${!pkg.canHelp ? 'disabled' : ''}>
+                            ${pkg.canHelp ? '去领取' : '已领取'}
+                        </button>
+                    </div>
+                    
+                    <div class="exposure-score">
+                        <span>👁</span>
+                        <span>曝光值: ${pkg.exposureScore}</span>
+                    </div>
+                </div>
+            `).join('')
+            
+            if (state.page === 1) {
+                if (formattedPackages.length === 0) {
+                    listEl.innerHTML = `
+                        <div class="empty-state">
+                            <div class="icon">📦</div>
+                            <div class="text">暂无礼包，快去发布吧！</div>
+                        </div>
+                    `
+                } else {
+                    listEl.innerHTML = html
+                }
+            } else {
+                listEl.insertAdjacentHTML('beforeend', html)
+            }
+            
+            state.hasMore = result.hasMore
+            loadingEl.style.display = 'none'
+            loadMoreEl.style.display = state.hasMore ? 'block' : 'none'
+        }
+        
+        // 切换标签
+        function switchTab(tab) {
+            state.currentTab = tab
+            state.page = 1
+            state.hasMore = true
+            
+            // 更新标签样式
+            document.querySelectorAll('.tab').forEach(t => {
+                t.classList.toggle('active', t.dataset.tab === tab)
+            })
+            
+            renderPackages()
+        }
+        
+        // 帮助礼包
+        async function handleHelp(packageId) {
+            const result = DataManager.helpPackage(packageId)
+            
+            if (result.success) {
+                Utils.showToast('领取成功！', 'success')
+                setTimeout(() => {
+                    window.location.href = `detail.html?id=${packageId}&action=help`
+                }, 500)
+            } else {
+                Utils.showToast(result.message, 'error')
+            }
+        }
+        
+        // 跳转详情
+        function goToDetail(packageId) {
+            window.location.href = `detail.html?id=${packageId}`
+        }
+        
+        // 跳转发布页
+        function goToPublish() {
+            window.location.href = 'publish.html'
+        }
+        
+        // 加载更多
+        function loadMore() {
+            if (state.hasMore && !state.loading) {
+                state.page++
+                renderPackages()
+            }
+        }
+        
+        // 事件监听
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => switchTab(tab.dataset.tab))
+        })
+        
+        document.getElementById('loadMore')?.addEventListener('click', loadMore)
+        
+        document.getElementById('searchInput')?.addEventListener('input', Utils.debounce((e) => {
+            state.searchKeyword = e.target.value
+            state.page = 1
+            renderPackages()
+        }, 500))
+        
+        // 无限滚动
+        window.addEventListener('scroll', Utils.debounce(() => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+                loadMore()
+            }
+        }, 200))
+        
+        // 初始化
+        renderPackages()
+    </script>
+</body>
+</html>

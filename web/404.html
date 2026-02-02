@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点点圈 - 页面未找到</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+            background: #f3f4f6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .error-container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .error-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .error-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 12px;
+        }
+        
+        .error-desc {
+            font-size: 15px;
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+        
+        .home-btn {
+            display: inline-block;
+            padding: 12px 32px;
+            background: linear-gradient(135deg, #f97316 0%, #fbbf24 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        
+        .home-btn:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-icon">📦</div>
+        <h1 class="error-title">页面未找到</h1>
+        <p class="error-desc">抱歉，您访问的页面不存在或已被移除</p>
+        <a href="index.html" class="home-btn">返回首页</a>
+    </div>
+    
+    <script>
+        // 单页应用路由支持 - 将路径重写到主页
+        (function() {
+            const path = window.location.pathname;
+            const hash = window.location.hash;
+            
+            // 如果是直接访问子页面，重定向到首页
+            if (path !== '/' && path !== '/index.html') {
+                // 保存当前路径信息到 sessionStorage
+                sessionStorage.setItem('redirectPath', path + hash);
+                // 重定向到首页
+                window.location.replace('/' + 'index.html');
+            }
+        })();
+    </script>
+</body>
+</html>

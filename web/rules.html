@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>点点圈 - 规则说明</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .rules-container {
+            padding: 16px;
+            padding-bottom: 100px;
+        }
+        
+        .rule-section {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .rule-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .rule-content {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+        
+        .rule-content p {
+            margin-bottom: 12px;
+        }
+        
+        .credit-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+        
+        .credit-table th,
+        .credit-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+        
+        .credit-table th {
+            font-weight: 600;
+            color: var(--text-primary);
+            background: var(--background);
+        }
+        
+        .credit-table td {
+            color: var(--text-secondary);
+        }
+        
+        .credit-badge {
+            font-size: 16px;
+        }
+        
+        .process-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .process-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+        
+        .step-arrow {
+            color: var(--text-tertiary);
+            font-size: 20px;
+            margin-left: 16px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border: 1px solid #fed7aa;
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        .highlight-box .title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        
+        .highlight-box .content {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="rules-container">
+            <!-- 导航栏 -->
+            <div class="nav-header">
+                <a href="javascript:history.back()" class="back-btn">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </a>
+                <div class="nav-title">规则说明</div>
+            </div>
+            
+            <!-- 核心理念 -->
+            <div class="rule-section">
+                <div class="rule-title">💡 核心理念</div>
+                <div class="rule-content">
+                    <p><strong>先助人，后受助。信用越好，曝光越高。</strong></p>
+                    <p>点点圈是一个纯公益的腾讯元宝抽奖互助平台。我们希望通过信用体系建立一个良性互助生态，让每个人都能公平地获得帮助。</p>
+                </div>
+            </div>
+            
+            <!-- 互助流程 -->
+            <div class="rule-section">
+                <div class="rule-title">🔄 互助流程</div>
+                <div class="process-flow">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">领取2个他人礼包（完成互助任务）</div>
+                    </div>
+                    <div class="step-arrow">↓</div>
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">获得发布资格</div>
+                    </div>
+                    <div class="step-arrow">↓</div>
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">发布自己的礼包</div>
+                    </div>
+                    <div class="step-arrow">↓</div>
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">其他用户领取，完成闭环</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 信用等级 -->
+            <div class="rule-section">
+                <div class="rule-title">📊 信用等级体系</div>
+                <table class="credit-table">
+                    <thead>
+                        <tr>
+                            <th>等级</th>
+                            <th>分数</th>
+                            <th>每日额度</th>
+                            <th>特权</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="credit-badge">🏆</span> 优秀</td>
+                            <td>90-100</td>
+                            <td>3个</td>
+                            <td>免审+置顶</td>
+                        </tr>
+                        <tr>
+                            <td><span class="credit-badge">⭐</span> 良好</td>
+                            <td>75-89</td>
+                            <td>2个</td>
+                            <td>免审核</td>
+                        </tr>
+                        <tr>
+                            <td><span class="credit-badge">🔹</span> 一般</td>
+                            <td>60-74</td>
+                            <td>2个</td>
+                            <td>需审核</td>
+                        </tr>
+                        <tr>
+                            <td><span class="credit-badge">⚠️</span> 警告</td>
+                            <td>40-59</td>
+                            <td>1个</td>
+                            <td>需审核</td>
+                        </tr>
+                        <tr>
+                            <td><span class="credit-badge">🚫</span> 受限</td>
+                            <td>20-39</td>
+                            <td>0个</td>
+                            <td>禁止发布</td>
+                        </tr>
+                        <tr>
+                            <td><span class="credit-badge">❌</span> 封禁</td>
+                            <td>0-19</td>
+                            <td>0个</td>
+                            <td>禁止登录</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 信用分规则 -->
+            <div class="rule-section">
+                <div class="rule-title">📈 信用分变动规则</div>
+                <div class="rule-content">
+                    <p><strong>加分项：</strong></p>
+                    <ul style="margin-left: 20px; margin-bottom: 16px;">
+                        <li>每日互助 +1分（上限2分/天）</li>
+                        <li>连续7天互助 +5分</li>
+                        <li>有效举报 +3分</li>
+                        <li>履行互助契约 +2分</li>
+                        <li>30天自然恢复 +5分</li>
+                    </ul>
+                    
+                    <p><strong>扣分项：</strong></p>
+                    <ul style="margin-left: 20px;">
+                        <li>虚假链接/图片 -20分</li>
+                        <li>领取无奖励 -10分</li>
+                        <li>垃圾广告 -30分</li>
+                        <li>未履行契约 -5分</li>
+                        <li>恶意举报 -2分</li>
+                        <li>作弊行为 -50分</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 温馨提示 -->
+            <div class="highlight-box">
+                <div class="title">🤝 温馨提示</div>
+                <div class="content">
+                    <p>1. 请确保分享的链接或图片真实有效</p>
+                    <p>2. 互助完成后请及时确认，维护良好生态</p>
+                    <p>3. 遇到违规行为请积极举报，共同维护平台秩序</p>
+                    <p>4. 信用分越高，礼包曝光率越高，获得更多帮助</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>点点圈 - 我的</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .my-container {
+            padding-bottom: 100px;
+        }
+        
+        /* 用户信息卡片 */
+        .user-card {
+            background: var(--primary-gradient);
+            padding: 24px 16px;
+            color: white;
+        }
+        
+        .user-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .user-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            overflow: hidden;
+        }
+        
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .user-info {
+            flex: 1;
+        }
+        
+        .user-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .user-name .name {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .user-name .level-tag {
+            padding: 4px 10px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 100px;
+            font-size: 12px;
+        }
+        
+        .user-credit {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+        
+        .user-credit .score {
+            font-size: 36px;
+            font-weight: 700;
+        }
+        
+        .user-credit .label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .user-stats {
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item .value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .stat-item .label {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+        
+        /* 今日任务 */
+        .task-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin: 12px 16px;
+        }
+        
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .task-title {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .task-date {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+        
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .task-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .task-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .task-icon.completed {
+            background: #d1fae5;
+        }
+        
+        .task-icon.pending {
+            background: var(--background);
+        }
+        
+        .task-name {
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+        
+        .task-status {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .task-status.completed {
+            color: #059669;
+        }
+        
+        .task-status.pending {
+            color: var(--text-primary);
+        }
+        
+        /* 徽章 */
+        .badge-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin: 0 16px 12px;
+        }
+        
+        .badge-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .badge-title {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .badge-count {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+        
+        .badge-list {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .badge-item {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 2px 8px rgba(249, 115, 22, 0.2);
+        }
+        
+        /* 菜单列表 */
+        .menu-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            margin: 0 16px 12px;
+            overflow: hidden;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .menu-item:hover {
+            background: var(--background);
+        }
+        
+        .menu-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .menu-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .menu-icon.orange { background: #ffedd5; }
+        .menu-icon.blue { background: #dbeafe; }
+        .menu-icon.green { background: #d1fae5; }
+        .menu-icon.purple { background: #e9d5ff; }
+        .menu-icon.gray { background: var(--background); }
+        
+        .menu-name {
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+        
+        .menu-arrow {
+            color: var(--text-tertiary);
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="my-container">
+            <!-- 导航栏 -->
+            <div class="nav-header">
+                <div class="nav-title">我的</div>
+                <a href="settings.html" class="nav-action">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <!-- 用户信息 -->
+            <div class="user-card">
+                <div class="user-header">
+                    <div class="user-avatar">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=current" alt="">
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name">
+                            <span class="name">我</span>
+                            <span class="level-tag" id="levelTag">🔹 一般</span>
+                        </div>
+                        <div class="user-credit">
+                            <span class="score" id="creditScore">60</span>
+                            <span class="label">信用分</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="user-stats">
+                    <div class="stat-item">
+                        <div class="value" id="totalHelped">0</div>
+                        <div class="label">累计帮助</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="value" id="totalPublished">0</div>
+                        <div class="label">累计发布</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="value" id="streakDays">1</div>
+                        <div class="label">连续登录</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 今日任务 -->
+            <div class="task-card">
+                <div class="task-header">
+                    <div class="task-title">📊 今日任务</div>
+                    <div class="task-date" id="todayDate">2026-02-02</div>
+                </div>
+                <div class="task-list">
+                    <div class="task-item">
+                        <div class="task-left">
+                            <div class="task-icon completed" id="helpTaskIcon">✓</div>
+                            <div class="task-name">互助任务</div>
+                        </div>
+                        <div class="task-status completed" id="helpTaskStatus">2/2 ✓</div>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-left">
+                            <div class="task-icon pending">📦</div>
+                            <div class="task-name">发布额度</div>
+                        </div>
+                        <div class="task-status pending" id="publishTaskStatus">0/2</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 徽章 -->
+            <div class="badge-card">
+                <div class="badge-header">
+                    <div class="badge-title">🏅 我的徽章</div>
+                    <div class="badge-count">2个</div>
+                </div>
+                <div class="badge-list">
+                    <div class="badge-item">🏅</div>
+                    <div class="badge-item">🔥</div>
+                </div>
+            </div>
+            
+            <!-- 功能菜单 -->
+            <div class="menu-card">
+                <a href="packages.html" class="menu-item">
+                    <div class="menu-left">
+                        <div class="menu-icon orange">📤</div>
+                        <div class="menu-name">我的分享</div>
+                    </div>
+                    <div class="menu-arrow">›</div>
+                </a>
+                <a href="helps.html" class="menu-item">
+                    <div class="menu-left">
+                        <div class="menu-icon blue">📋</div>
+                        <div class="menu-name">我的帮助</div>
+                    </div>
+                    <div class="menu-arrow">›</div>
+                </a>
+                <a href="credit.html" class="menu-item">
+                    <div class="menu-left">
+                        <div class="menu-icon green">📈</div>
+                        <div class="menu-name">信用记录</div>
+                    </div>
+                    <div class="menu-arrow">›</div>
+                </a>
+                <a href="leaderboard.html" class="menu-item">
+                    <div class="menu-left">
+                        <div class="menu-icon purple">🏆</div>
+                        <div class="menu-name">排行榜</div>
+                    </div>
+                    <div class="menu-arrow">›</div>
+                </a>
+                <a href="rules.html" class="menu-item">
+                    <div class="menu-left">
+                        <div class="menu-icon gray">📖</div>
+                        <div class="menu-name">规则说明</div>
+                    </div>
+                    <div class="menu-arrow">›</div>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部标签栏 -->
+    <div class="tab-bar">
+        <a href="index.html" class="tab-item">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+            <span class="label">首页</span>
+        </a>
+        <a href="leaderboard.html" class="tab-item">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+            <span class="label">榜单</span>
+        </a>
+        <a href="my.html" class="tab-item active">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+            </svg>
+            <span class="label">我的</span>
+        </a>
+    </div>
+    
+    <script src="js/data.js"></script>
+    <script>
+        // 初始化
+        DataManager.init()
+        
+        // 加载用户数据
+        function loadUserData() {
+            const user = DataManager.getCurrentUser()
+            const creditInfo = Utils.getCreditLevel(user.creditScore)
+            
+            // 更新用户信息
+            document.getElementById('levelTag').textContent = `${creditInfo.badge} ${creditInfo.name}`
+            document.getElementById('creditScore').textContent = user.creditScore
+            document.getElementById('totalHelped').textContent = user.totalStats?.totalHelped || 0
+            document.getElementById('totalPublished').textContent = user.totalStats?.totalPublished || 0
+            document.getElementById('streakDays').textContent = user.totalStats?.streakDays || 1
+            
+            // 更新日期
+            document.getElementById('todayDate').textContent = new Date().toISOString().split('T')[0]
+            
+            // 更新任务状态
+            const helped = user.dailyStats?.helped || 0
+            const published = user.dailyStats?.published || 0
+            const quota = user.dailyStats?.quota || 2
+            
+            document.getElementById('helpTaskStatus').textContent = `${helped}/2 ${helped >= 2 ? '✓' : ''}`
+            document.getElementById('helpTaskStatus').className = `task-status ${helped >= 2 ? 'completed' : 'pending'}`
+            
+            const helpIcon = document.getElementById('helpTaskIcon')
+            helpIcon.textContent = helped >= 2 ? '✓' : '⏳'
+            helpIcon.className = `task-icon ${helped >= 2 ? 'completed' : 'pending'}`
+            
+            document.getElementById('publishTaskStatus').textContent = `${published}/${quota}`
+        }
+        
+        // 初始化
+        loadUserData()
+    </script>
+</body>
+</html>

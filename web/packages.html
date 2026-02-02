@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>点点圈 - 我的分享</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .packages-container {
+            padding: 12px 16px 100px;
+        }
+        
+        .package-item {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .package-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .package-type {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .package-type .icon {
+            font-size: 24px;
+        }
+        
+        .package-type .name {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .package-status {
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .package-status.active {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+        
+        .package-status.completed {
+            background: #d1fae5;
+            color: #059669;
+        }
+        
+        .package-status.cancelled {
+            background: var(--background);
+            color: var(--text-tertiary);
+        }
+        
+        .package-progress {
+            margin-bottom: 12px;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .progress-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .progress-value {
+            font-size: 18px;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .progress-value.completed {
+            background: none;
+            -webkit-text-fill-color: #059669;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: var(--background);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        
+        .progress-fill.completed {
+            background: #22c55e;
+        }
+        
+        .package-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .action-btn.adjust {
+            background: #ffedd5;
+            color: #ea580c;
+            border: 1px solid #fed7aa;
+        }
+        
+        .action-btn.adjust:hover {
+            background: #fed7aa;
+        }
+        
+        .action-btn.cancel {
+            background: var(--background);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+        
+        .action-btn.cancel:hover {
+            background: var(--border);
+        }
+        
+        .action-btn.view {
+            background: var(--primary-gradient);
+            color: white;
+        }
+        
+        .package-time {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            margin-top: 12px;
+        }
+        
+        .completed-msg {
+            background: #d1fae5;
+            color: #059669;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 12px;
+        }
+        
+        /* 调整弹窗 */
+        .adjust-modal .modal-body {
+            text-align: left;
+        }
+        
+        .adjust-form {
+            margin-top: 16px;
+        }
+        
+        .adjust-form .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .adjust-form label {
+            display: block;
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .adjust-form input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 16px;
+        }
+        
+        .adjust-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .adjust-hint {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- 导航栏 -->
+        <div class="nav-header">
+            <a href="my.html" class="back-btn">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </a>
+            <div class="nav-title">我的分享</div>
+        </div>
+        
+        <!-- 标签筛选 -->
+        <div class="tabs">
+            <div class="tab active" data-tab="all">全部</div>
+            <div class="tab" data-tab="active">进行中</div>
+            <div class="tab" data-tab="completed">已完成</div>
+        </div>
+        
+        <!-- 礼包列表 -->
+        <div class="packages-container" id="packagesList">
+            <!-- 动态加载 -->
+        </div>
+    </div>
+    
+    <script src="js/data.js"></script>
+    <script>
+        // 初始化
+        DataManager.init()
+        
+        const state = {
+            currentTab: 'all'
+        }
+        
+        const currentUser = DataManager.getCurrentUser()
+        
+        // 渲染礼包列表
+        function renderPackages() {
+            const listEl = document.getElementById('packagesList')
+            
+            let packages = DataManager.getPackages({ creatorOpenid: currentUser._openid }).list
+            
+            // 筛选
+            if (state.currentTab !== 'all') {
+                packages = packages.filter(p => p.status === state.currentTab)
+            }
+            
+            if (packages.length === 0) {
+                listEl.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📦</div>
+                        <div class="text">暂无分享</div>
+                    </div>
+                `
+                return
+            }
+            
+            const html = packages.map(pkg => {
+                const progressPercent = (pkg.helpCount / pkg.maxHelp) * 100
+                const isCompleted = pkg.status === 'completed'
+                const isCancelled = pkg.status === 'cancelled'
+                
+                let statusText = '进行中'
+                let statusClass = 'active'
+                if (isCompleted) {
+                    statusText = '已完成'
+                    statusClass = 'completed'
+                } else if (isCancelled) {
+                    statusText = '已取消'
+                    statusClass = 'cancelled'
+                }
+                
+                return `
+                    <div class="package-item ${isCancelled ? 'opacity-60' : ''}">
+                        <div class="package-header">
+                            <div class="package-type">
+                                <span class="icon">${pkg.type === 'LINK' ? '🎁' : '📱'}</span>
+                                <span class="name">${pkg.type === 'LINK' ? '元宝抽奖' : '二维码图片'}</span>
+                            </div>
+                            <span class="package-status ${statusClass}">${statusText}</span>
+                        </div>
+                        
+                        <div class="package-progress">
+                            <div class="progress-info">
+                                <span class="progress-label">领取进度</span>
+                                <span class="progress-value ${isCompleted ? 'completed' : ''}">
+                                    ${pkg.helpCount}/${pkg.maxHelp} ${isCompleted ? '✓' : ''}
+                                </span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill ${isCompleted ? 'completed' : ''}" style="width: ${progressPercent}%"></div>
+                            </div>
+                        </div>
+                        
+                        ${!isCompleted && !isCancelled ? `
+                            <div class="package-actions">
+                                <button class="action-btn adjust" onclick="showAdjustModal('${pkg._id}', ${pkg.helpCount})">更正领取数</button>
+                                <button class="action-btn cancel" onclick="cancelPackage('${pkg._id}')">取消分享</button>
+                            </div>
+                        ` : ''}
+                        
+                        ${isCompleted ? `
+                            <div class="completed-msg">
+                                🎉 已领满！感谢大家的帮助
+                            </div>
+                        ` : ''}
+                        
+                        <div class="package-time">
+                            ${isCompleted ? '完成' : '发布'}于 ${Utils.formatRelativeTime(pkg.createdAt)}
+                        </div>
+                    </div>
+                `
+            }).join('')
+            
+            listEl.innerHTML = html
+        }
+        
+        // 切换标签
+        function switchTab(tab) {
+            state.currentTab = tab
+            
+            document.querySelectorAll('.tab').forEach(t => {
+                t.classList.toggle('active', t.dataset.tab === tab)
+            })
+            
+            renderPackages()
+        }
+        
+        // 显示更正弹窗
+        function showAdjustModal(packageId, currentCount) {
+            const modal = document.createElement('div')
+            modal.className = 'modal-overlay adjust-modal'
+            modal.innerHTML = `
+                <div class="modal">
+                    <div class="modal-header">更正领取数量</div>
+                    <div class="modal-body">
+                        <div class="adjust-form">
+                            <div class="form-group">
+                                <label>当前显示：${currentCount}人已领</label>
+                            </div>
+                            <div class="form-group">
+                                <label>实际已领人数</label>
+                                <input type="number" id="newCount" min="${currentCount}" max="10" value="${currentCount}">
+                                <div class="adjust-hint">⚠️ 更正后剩余 ${10 - currentCount} 个名额</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button onclick="closeModal()">取消</button>
+                        <button onclick="confirmAdjust('${packageId}')" style="color: var(--primary);">确认更正</button>
+                    </div>
+                </div>
+            `
+            document.body.appendChild(modal)
+        }
+        
+        // 关闭弹窗
+        function closeModal() {
+            const modal = document.querySelector('.modal-overlay')
+            if (modal) modal.remove()
+        }
+        
+        // 确认更正
+        function confirmAdjust(packageId) {
+            const newCount = parseInt(document.getElementById('newCount').value)
+            
+            if (newCount < 0 || newCount > 10) {
+                Utils.showToast('请输入有效的数量', 'error')
+                return
+            }
+            
+            const result = DataManager.adjustHelpCount(packageId, newCount)
+            
+            if (result.success) {
+                Utils.showToast('更正成功', 'success')
+                closeModal()
+                renderPackages()
+            } else {
+                Utils.showToast(result.message, 'error')
+            }
+        }
+        
+        // 取消分享
+        async function cancelPackage(packageId) {
+            const confirmed = await Utils.showConfirm('确认取消分享？', '取消后该礼包将不再展示，其他人无法继续领取。')
+            
+            if (confirmed) {
+                const result = DataManager.cancelPackage(packageId)
+                
+                if (result.success) {
+                    Utils.showToast('已取消分享', 'success')
+                    renderPackages()
+                } else {
+                    Utils.showToast(result.message, 'error')
+                }
+            }
+        }
+        
+        // 事件监听
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => switchTab(tab.dataset.tab))
+        })
+        
+        // 初始化
+        renderPackages()
+    </script>
+</body>
+</html>
