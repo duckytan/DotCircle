@@ -87,30 +87,60 @@ export default function RegisterPage() {
       if (authData.user) {
         console.log('Step 2: Auth user created:', authData.user.id)
         
-        // 2. 创建用户资料
-        console.log('Step 3: Creating user profile...')
-        const profileData = {
-          id: authData.user.id,
-          email: authData.user.email,
-          nick_name: nickName || email.split('@')[0],
-          credit_score: 60,
-          credit_level: 'NORMAL',
-        }
-        console.log('Profile data:', profileData)
+        // 2. 检查用户资料是否已存在（触发器可能已经创建了）
+        console.log('Step 3: Checking if user profile already exists...')
+        const { data: existingUser, error: checkError } = await supabase
+          .from('users')
+          .select('*')
+          .eq('id', authData.user.id)
+          .single()
         
-        const { error: profileError, data: profileResult } = await supabase.from('users').insert(profileData)
+        if (checkError && checkError.code !== 'PGRST116') {
+          console.error('Error checking existing user:', checkError)
+        }
+        
+        if (existingUser) {
+          console.log('Step 4: User profile already exists (created by trigger)')
+          // 更新昵称（如果用户提供了）
+          if (nickName && nickName !== existingUser.nick_name) {
+            console.log('Step 5: Updating nick_name...')
+            const { error: updateError } = await supabase
+              .from('users')
+              .update({ nick_name: nickName })
+              .eq('id', authData.user.id)
+            
+            if (updateError) {
+              console.error('Error updating nick_name:', updateError)
+            } else {
+              console.log('Step 5: Nick_name updated successfully')
+            }
+          }
+        } else {
+          // 触发器没有创建，手动创建
+          console.log('Step 4: Creating user profile manually...')
+          const profileData = {
+            id: authData.user.id,
+            email: authData.user.email,
+            nick_name: nickName || email.split('@')[0],
+            credit_score: 60,
+            credit_level: 'NORMAL',
+          }
+          console.log('Profile data:', profileData)
+          
+          const { error: profileError } = await supabase.from('users').insert(profileData)
 
-        if (profileError) {
-          console.error('Profile creation error:', {
-            message: profileError.message,
-            code: profileError.code,
-            details: profileError.details,
-            hint: profileError.hint,
-          })
-          throw profileError
+          if (profileError) {
+            console.error('Profile creation error:', {
+              message: profileError.message,
+              code: profileError.code,
+              details: profileError.details,
+              hint: profileError.hint,
+            })
+            throw profileError
+          }
+          
+          console.log('Step 5: Profile created successfully')
         }
-        
-        console.log('Step 4: Profile created successfully')
 
         setSuccess(true)
         
