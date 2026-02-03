@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "点点圈",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50,
+  "usingComponents": {}
+}

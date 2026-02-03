@@ -1,0 +1,9 @@
+{
+  "name": "init-database",
+  "version": "1.0.0",
+  "description": "初始化数据库索引（一次性运行）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

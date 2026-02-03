@@ -1,0 +1,150 @@
+<!--pages/my/packages/index.wxml-->
+<view class="container">
+  <!-- 标签切换 -->
+  <view class="tabs-section">
+    <view class="tabs">
+      <view class="tab {{currentTab === 'all' ? 'active' : ''}}" bindtap="switchTab" data-tab="all">
+        全部
+      </view>
+      <view class="tab {{currentTab === 'active' ? 'active' : ''}}" bindtap="switchTab" data-tab="active">
+        进行中
+      </view>
+      <view class="tab {{currentTab === 'completed' ? 'active' : ''}}" bindtap="switchTab" data-tab="completed">
+        已领满
+      </view>
+      <view class="tab {{currentTab === 'cancelled' ? 'active' : ''}}" bindtap="switchTab" data-tab="cancelled">
+        已取消
+      </view>
+    </view>
+  </view>
+
+  <!-- 礼包列表 -->
+  <view class="package-list">
+    <block wx:if="{{packages.length > 0}}">
+      <view class="package-card" wx:for="{{packages}}" wx:key="_id">
+        <!-- 头部：类型和状态 -->
+        <view class="card-header">
+          <view class="type-badge {{item.type === 'LINK' ? 'link' : 'image'}}">
+            <text class="type-icon">{{item.type === 'LINK' ? '🔗' : '📱'}}</text>
+            <text class="type-text">{{item.type === 'LINK' ? '链接' : '图片'}}</text>
+          </view>
+          <view class="status-badge {{item.status}}">
+            <text wx:if="{{item.status === 'active'}}">进行中</text>
+            <text wx:if="{{item.status === 'completed'}}">已领满</text>
+            <text wx:if="{{item.status === 'cancelled'}}">已取消</text>
+            <text wx:if="{{item.status === 'pending'}}">审核中</text>
+          </view>
+        </view>
+
+        <!-- 内容区域 -->
+        <view class="card-content" bindtap="goToDetail" data-id="{{item._id}}">
+          <view wx:if="{{item.type === 'LINK'}}" class="content-preview link-preview">
+            <text class="preview-text">元宝抽奖链接</text>
+            <text class="preview-url">{{item.giftUrl}}</text>
+          </view>
+          <view wx:if="{{item.type === 'IMAGE'}}" class="content-preview image-preview">
+            <image src="{{item.imageUrl}}" mode="aspectFill" lazy-load />
+          </view>
+        </view>
+
+        <!-- 进度信息 -->
+        <view class="progress-section">
+          <view class="progress-header">
+            <text class="progress-label">领取进度</text>
+            <text class="progress-value">{{item.helpCount}}/{{item.maxHelp}}</text>
+          </view>
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{(item.helpCount / item.maxHelp) * 100}}%"></view>
+          </view>
+          <view wx:if="{{item.status === 'active'}}" class="progress-hint">
+            <text>还差 {{item.maxHelp - item.helpCount}} 人领满</text>
+          </view>
+        </view>
+
+        <!-- 操作按钮 -->
+        <view wx:if="{{item.status === 'active'}}" class="action-bar">
+          <button class="action-btn secondary" catchtap="showAdjustModal" data-id="{{item._id}}" data-current="{{item.helpCount}}">
+            更正领取数
+          </button>
+          <button class="action-btn danger" catchtap="cancelPackage" data-id="{{item._id}}">
+            取消分享
+          </button>
+        </view>
+
+        <!-- 时间信息 -->
+        <view class="time-info">
+          <text class="time-text">发布于 {{item.createdAt}}</text>
+          <text wx:if="{{item.status === 'completed'}}" class="time-text">完成于 {{item.updatedAt}}</text>
+          <text wx:if="{{item.status === 'cancelled'}}" class="time-text">取消于 {{item.management?.cancelledAt}}</text>
+        </view>
+
+        <!-- 更正历史 -->
+        <view wx:if="{{item.management?.helpCountAdjustments?.length > 0}}" class="adjustment-info">
+          <view class="adjustment-item" wx:for="{{item.management.helpCountAdjustments}}" wx:key="index">
+            <text class="adjustment-text">已更正: {{item.from}}→{{item.to}}人</text>
+            <text class="adjustment-reason">{{item.reason}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 空状态 -->
+    <view wx:if="{{packages.length === 0 && !loading}}" class="empty-state">
+      <text class="empty-icon">📦</text>
+      <text class="empty-text">暂无分享</text>
+      <text class="empty-hint">快去发布礼包吧！</text>
+    </view>
+  </view>
+
+  <!-- 加载更多 -->
+  <view wx:if="{{hasMore && !loading}}" class="load-more" bindtap="loadMore">
+    <text>加载更多</text>
+  </view>
+  <view wx:if="{{loading}}" class="loading">
+    <view class="loading-spinner"></view>
+  </view>
+</view>
+
+<!-- 更正弹窗 -->
+<view wx:if="{{showAdjustModal}}" class="modal-overlay" bindtap="closeAdjustModal">
+  <view class="modal-content" catchtap="stopPropagation">
+    <view class="modal-header">
+      <text class="modal-title">更正领取数量</text>
+      <text class="modal-close" bindtap="closeAdjustModal">×</text>
+    </view>
+    <view class="modal-body">
+      <view class="current-info">
+        <text class="info-label">当前显示：</text>
+        <text class="info-value">{{adjustCurrent}}人已领</text>
+      </view>
+      <view class="input-group">
+        <text class="input-label">实际已领：</text>
+        <input 
+          class="adjust-input" 
+          type="number" 
+          value="{{adjustValue}}"
+          bindinput="onAdjustInput"
+          placeholder="输入实际数量"
+        />
+        <text class="input-unit">人</text>
+      </view>
+      <view class="reason-group">
+        <text class="input-label">更正说明：</text>
+        <textarea 
+          class="reason-input" 
+          value="{{adjustReason}}"
+          bindinput="onReasonInput"
+          placeholder="请说明更正原因，如：分享到微信群领了3人"
+          maxlength="100"
+        />
+      </view>
+      <view class="adjust-hint">
+        <text>更正后剩余 {{adjustHint}} 个名额</text>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <button class="modal-btn secondary" bindtap="closeAdjustModal">取消</button>
+      <button class="modal-btn primary" bindtap="confirmAdjust">确认更正</button>
+    </view>
+  </view>
+</view>

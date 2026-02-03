@@ -1,0 +1,132 @@
+<!--pages/my/index.wxml-->
+<view class="container">
+  <!-- 用户信息卡片 -->
+  <view class="user-card">
+    <view class="user-main">
+      <view class="avatar-section">
+        <image class="user-avatar" src="{{userInfo?.avatarUrl || '/assets/default-avatar.png'}}" mode="aspectFill" />
+        <view class="credit-badge {{creditInfo.level}}">
+          {{creditInfo.badge}}
+        </view>
+      </view>
+      <view class="user-info">
+        <view class="user-header">
+          <text class="user-name">{{userInfo?.nickName || '我'}}</text>
+          <view class="level-tag {{creditInfo.level}}">
+            {{creditInfo.name}}
+          </view>
+        </view>
+        <view class="credit-display">
+          <text class="credit-score">{{userInfo?.creditScore || 60}}</text>
+          <text class="credit-label">信用分</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 统计数据 -->
+    <view class="stats-bar">
+      <view class="stat-item">
+        <text class="stat-value">{{userInfo?.totalStats?.totalHelped || 0}}</text>
+        <text class="stat-label">累计帮助</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{userInfo?.totalStats?.totalPublished || 0}}</text>
+        <text class="stat-label">累计发布</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{userInfo?.totalStats?.streakDays || 0}}</text>
+        <text class="stat-label">连续登录</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 今日任务 -->
+  <view class="task-card">
+    <view class="task-header">
+      <text class="task-title">📊 今日任务</text>
+      <text class="task-date">{{todayDate}}</text>
+    </view>
+    <view class="task-list">
+      <view class="task-item">
+        <view class="task-icon-wrapper {{todayTask?.helped >= 2 ? 'completed' : ''}}">
+          <text wx:if="{{todayTask?.helped >= 2}}">✓</text>
+          <text wx:else>1</text>
+        </view>
+        <view class="task-content">
+          <text class="task-name">互助任务</text>
+          <text class="task-desc">领取2个礼包</text>
+        </view>
+        <view class="task-status">
+          <text class="status-text {{todayTask?.helped >= 2 ? 'completed' : ''}}">
+            {{todayTask?.helped || 0}}/2
+          </text>
+        </view>
+      </view>
+      <view class="task-item">
+        <view class="task-icon-wrapper">
+          <text>2</text>
+        </view>
+        <view class="task-content">
+          <text class="task-name">发布额度</text>
+          <text class="task-desc">每日可发布{{dailyQuota}}个</text>
+        </view>
+        <view class="task-status">
+          <text class="status-text">{{todayTask?.published || 0}}/{{dailyQuota}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 徽章展示 -->
+  <view wx:if="{{achievements?.length > 0}}" class="badge-card">
+    <view class="badge-header">
+      <text class="badge-title">🏅 我的徽章</text>
+      <text class="badge-count">{{achievements.length}}个</text>
+    </view>
+    <view class="badge-list">
+      <view class="badge-item" wx:for="{{achievements.slice(0, 4)}}" wx:key="index">
+        <text class="badge-emoji">{{item.emoji}}</text>
+        <text class="badge-name">{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-card">
+    <view class="menu-item" bindtap="goToMyPackages">
+      <view class="menu-icon">
+        <text>📦</text>
+      </view>
+      <text class="menu-name">我的分享</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goToHelpHistory">
+      <view class="menu-icon">
+        <text>🤝</text>
+      </view>
+      <text class="menu-name">我的帮助</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goToCreditHistory">
+      <view class="menu-icon">
+        <text>📈</text>
+      </view>
+      <text class="menu-name">信用记录</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goToLeaderboard">
+      <view class="menu-icon">
+        <text>🏆</text>
+      </view>
+      <text class="menu-name">排行榜</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goToRules">
+      <view class="menu-icon">
+        <text>📖</text>
+      </view>
+      <text class="menu-name">规则说明</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+</view>

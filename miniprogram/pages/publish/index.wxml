@@ -1,0 +1,127 @@
+<!--pages/publish/index.wxml-->
+<view class="container">
+  <!-- 任务检查卡片 -->
+  <view class="task-card">
+    <view class="task-header">
+      <text class="task-title">📊 今日任务</text>
+      <text class="task-status {{canPublish ? 'completed' : 'pending'}}">
+        {{canPublish ? '✓ 已完成' : '进行中'}}
+      </text>
+    </view>
+    
+    <view class="task-list">
+      <view class="task-item">
+        <view class="task-info">
+          <view class="task-icon {{todayHelped >= 2 ? 'success' : ''}}">
+            <text wx:if="{{todayHelped >= 2}}">✓</text>
+            <text wx:else>○</text>
+          </view>
+          <text class="task-name">互助任务（先领2个）</text>
+        </view>
+        <view class="task-progress">
+          <text class="progress-text {{todayHelped >= 2 ? 'success' : ''}}">
+            {{todayHelped}}/2
+          </text>
+        </view>
+      </view>
+      
+      <view class="task-item">
+        <view class="task-info">
+          <view class="task-icon">○</view>
+          <text class="task-name">发布额度</text>
+        </view>
+        <view class="task-progress">
+          <text class="progress-text">{{todayPublished}}/{{dailyQuota}}</text>
+        </view>
+      </view>
+    </view>
+    
+    <view wx:if="{{canPublish}}" class="task-success">
+      <text>✅ 任务完成！可以发布礼包了</text>
+    </view>
+    <view wx:else class="task-tip">
+      <text>⚠️ 请先完成今日互助任务（领取2个礼包）</text>
+    </view>
+  </view>
+
+  <!-- 发布类型切换 -->
+  <view class="type-tabs">
+    <view class="tab {{publishType === 'link' ? 'active' : ''}}" bindtap="switchType" data-type="link">
+      粘贴链接
+    </view>
+    <view class="tab {{publishType === 'image' ? 'active' : ''}}" bindtap="switchType" data-type="image">
+      上传图片
+    </view>
+  </view>
+
+  <!-- 链接模式 -->
+  <view wx:if="{{publishType === 'link'}}" class="input-section">
+    <view class="input-card">
+      <text class="input-label">元宝抽奖链接</text>
+      <textarea 
+        class="input-textarea {{linkValid ? 'valid' : ''}}"
+        placeholder="粘贴你的元宝抽奖链接..."
+        value="{{giftUrl}}"
+        bindinput="onLinkInput"
+        maxlength="500"
+      />
+      <view class="input-hint">
+        <text class="hint-icon">ℹ️</text>
+        <text class="hint-text">支持 https://yb.tencent.com/... 格式的链接</text>
+      </view>
+      <view wx:if="{{linkValid}}" class="validation-success">
+        <text>✓ 链接格式正确</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 图片模式 -->
+  <view wx:if="{{publishType === 'image'}}" class="input-section">
+    <view class="input-card">
+      <text class="input-label">上传二维码图片</text>
+      <view class="image-uploader" bindtap="chooseImage">
+        <block wx:if="{{!imageUrl}}">
+          <view class="upload-placeholder">
+            <text class="upload-icon">📷</text>
+            <text class="upload-text">点击上传图片</text>
+            <text class="upload-hint">支持 JPG、PNG 格式</text>
+          </view>
+        </block>
+        <block wx:else>
+          <image class="preview-image" src="{{imageUrl}}" mode="aspectFit" />
+          <view class="remove-image" catchtap="removeImage">
+            <text>×</text>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+
+  <!-- 契约选项 -->
+  <view class="contract-section">
+    <view class="contract-card" bindtap="toggleContract">
+      <view class="contract-checkbox {{enableContract ? 'checked' : ''}}">
+        <text wx:if="{{enableContract}}">✓</text>
+      </view>
+      <view class="contract-info">
+        <text class="contract-title">开启互助契约</text>
+        <text class="contract-desc">领取者需在24小时内发布自己的礼包，成功履约+2信用分，违约-5信用分</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 提交按钮 -->
+  <button 
+    class="submit-btn {{canSubmit ? '' : 'disabled'}}" 
+    bindtap="submitPublish"
+    disabled="{{!canSubmit || submitting}}"
+    loading="{{submitting}}"
+  >
+    {{submitting ? '发布中...' : '确认发布'}}
+  </button>
+
+  <!-- 发布规则提示 -->
+  <view class="rules-tip">
+    <text>发布后需审核通过方可展示</text>
+  </view>
+</view>

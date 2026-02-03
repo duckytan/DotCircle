@@ -1,0 +1,9 @@
+{
+  "name": "credit",
+  "version": "1.0.0",
+  "description": "信用相关操作",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

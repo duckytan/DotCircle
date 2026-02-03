@@ -1,0 +1,95 @@
+<!--pages/package/detail/index.wxml-->
+<view class="container">
+  <!-- 发布者信息 -->
+  <view class="publisher-card">
+    <view class="publisher-main">
+      <image class="publisher-avatar" src="{{package.publisher?.avatarUrl || '/assets/default-avatar.png'}}" mode="aspectFill" />
+      <view class="publisher-info">
+        <view class="publisher-header">
+          <text class="publisher-name">{{package.publisher?.nickname || '用户'}}</text>
+          <view class="credit-badge {{package.publisher?.creditLevel || 'NORMAL'}}">
+            {{creditInfo.badge}}
+          </view>
+        </view>
+        <text class="publisher-stats">信用{{creditInfo.name}} · 已帮助 {{package.publisher?.totalStats?.totalHelped || 0}}人</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 领取进度 -->
+  <view class="progress-card">
+    <view class="progress-header">
+      <text class="progress-title">领取进度</text>
+      <text class="progress-count">{{package.helpCount}}/{{package.maxHelp}}</text>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{progressPercent}}%"></view>
+    </view>
+    <view class="progress-footer">
+      <text class="progress-hint">已领取 {{package.helpCount}}人</text>
+      <text class="progress-remaining">还差 {{remaining}}人</text>
+    </view>
+  </view>
+
+  <!-- 已帮助的人 -->
+  <view wx:if="{{package.helpers?.length > 0}}" class="helpers-card">
+    <text class="section-title">已帮助的人</text>
+    <view class="helpers-list">
+      <view class="helper-item" wx:for="{{package.helpers}}" wx:key="openid">
+        <image class="helper-avatar" src="{{item.avatarUrl || '/assets/default-avatar.png'}}" mode="aspectFill" />
+        <text class="helper-name">{{item.nickname ? maskNickname(item.nickname) : '用户'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 礼包内容 -->
+  <view class="content-card">
+    <text class="section-title">礼包内容</text>
+    <view class="content-box {{package.type === 'LINK' ? 'link-box' : 'image-box'}}">
+      <block wx:if="{{package.type === 'LINK'}}">
+        <view class="link-content">
+          <view class="link-icon-wrapper">
+            <text class="link-icon-large">🔗</text>
+          </view>
+          <view class="link-info">
+            <text class="link-title">元宝抽奖链接</text>
+            <text class="link-desc">点击领取按钮后跳转</text>
+          </view>
+        </view>
+        <view class="link-url-box">
+          <text class="link-url">{{package.giftUrl}}</text>
+        </view>
+      </block>
+      <block wx:if="{{package.type === 'IMAGE'}}">
+        <image class="package-image" src="{{package.imageUrl}}" mode="widthFix" bindtap="previewImage" />
+      </block>
+    </view>
+  </view>
+
+  <!-- 契约信息 -->
+  <view wx:if="{{package.contract?.enabled}}" class="contract-card">
+    <view class="contract-icon">✓</view>
+    <view class="contract-content">
+      <text class="contract-title">互助契约已开启</text>
+      <text class="contract-desc">领取后需在24小时内发布自己的礼包，成功履约+2信用分，违约-5信用分</text>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-bar">
+    <block wx:if="{{isCreator}}">
+      <button class="action-btn secondary" bindtap="cancelPackage">取消分享</button>
+      <button class="action-btn primary" bindtap="sharePackage">分享出去</button>
+    </block>
+    <block wx:else>
+      <button 
+        class="action-btn {{canHelp ? 'primary' : 'disabled'}}" 
+        bindtap="helpPackage"
+        disabled="{{!canHelp || helping}}"
+        loading="{{helping}}"
+      >
+        {{helping ? '领取中...' : (hasHelped ? '已领取' : '立即领取')}}
+      </button>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,349 @@
+/* pages/publish/index.wxss */
+.container {
+  padding: 20rpx 30rpx 60rpx;
+}
+
+/* 任务卡片 */
+.task-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+}
+
+.task-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+
+.task-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.task-status {
+  font-size: 24rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+  font-weight: 600;
+}
+
+.task-status.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.task-status.completed {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.task-list {
+  margin-bottom: 24rpx;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f3f4f6;
+}
+
+.task-item:last-child {
+  border-bottom: none;
+}
+
+.task-info {
+  display: flex;
+  align-items: center;
+}
+
+.task-icon {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: #9ca3af;
+  margin-right: 16rpx;
+}
+
+.task-icon.success {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: #fff;
+}
+
+.task-name {
+  font-size: 30rpx;
+  color: #374151;
+}
+
+.task-progress {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.task-progress .success {
+  color: #22c55e;
+}
+
+.task-success {
+  background: #dcfce7;
+  color: #166534;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.task-tip {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  text-align: center;
+  font-size: 28rpx;
+}
+
+/* 类型切换 */
+.type-tabs {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 30rpx;
+}
+
+.tab {
+  flex: 1;
+  padding: 24rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  text-align: center;
+  font-size: 30rpx;
+  color: #6b7280;
+  border: 2rpx solid #e5e7eb;
+  transition: all 0.3s;
+}
+
+.tab.active {
+  background: linear-gradient(135deg, #f97316 0%, #fbbf24 100%);
+  color: #fff;
+  border-color: transparent;
+  font-weight: 600;
+}
+
+/* 输入区域 */
+.input-section {
+  margin-bottom: 30rpx;
+}
+
+.input-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+}
+
+.input-label {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #1f2937;
+  display: block;
+  margin-bottom: 20rpx;
+}
+
+.input-textarea {
+  width: 100%;
+  height: 200rpx;
+  background: #f9fafb;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  font-size: 28rpx;
+  color: #1f2937;
+  box-sizing: border-box;
+  border: 2rpx solid transparent;
+  transition: all 0.3s;
+}
+
+.input-textarea:focus {
+  border-color: #f97316;
+  background: #fff;
+}
+
+.input-textarea.valid {
+  border-color: #22c55e;
+  background: #f0fdf4;
+}
+
+.input-hint {
+  display: flex;
+  align-items: center;
+  margin-top: 16rpx;
+}
+
+.hint-icon {
+  font-size: 28rpx;
+  margin-right: 8rpx;
+  opacity: 0.5;
+}
+
+.hint-text {
+  font-size: 24rpx;
+  color: #9ca3af;
+}
+
+.validation-success {
+  margin-top: 16rpx;
+  color: #22c55e;
+  font-size: 26rpx;
+  font-weight: 500;
+}
+
+/* 图片上传 */
+.image-uploader {
+  width: 100%;
+  height: 400rpx;
+  background: #f9fafb;
+  border-radius: 16rpx;
+  border: 2rpx dashed #d1d5db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upload-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.upload-text {
+  font-size: 32rpx;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.upload-hint {
+  font-size: 24rpx;
+  color: #9ca3af;
+  margin-top: 12rpx;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+}
+
+.remove-image {
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+  width: 60rpx;
+  height: 60rpx;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 40rpx;
+}
+
+/* 契约选项 */
+.contract-section {
+  margin-bottom: 40rpx;
+}
+
+.contract-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 30rpx;
+  display: flex;
+  align-items: flex-start;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+}
+
+.contract-checkbox {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 12rpx;
+  border: 3rpx solid #d1d5db;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: #fff;
+  transition: all 0.3s;
+}
+
+.contract-checkbox.checked {
+  background: linear-gradient(135deg, #f97316 0%, #fbbf24 100%);
+  border-color: transparent;
+}
+
+.contract-info {
+  flex: 1;
+}
+
+.contract-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #1f2937;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.contract-desc {
+  font-size: 26rpx;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+/* 提交按钮 */
+.submit-btn {
+  width: 100%;
+  height: 100rpx;
+  background: linear-gradient(135deg, #f97316 0%, #fbbf24 100%);
+  color: #fff;
+  font-size: 34rpx;
+  font-weight: 700;
+  border-radius: 50rpx;
+  border: none;
+  margin-bottom: 30rpx;
+  box-shadow: 0 8rpx 32rpx rgba(249, 115, 22, 0.3);
+}
+
+.submit-btn::after {
+  border: none;
+}
+
+.submit-btn.disabled {
+  background: #e5e7eb;
+  color: #9ca3af;
+  box-shadow: none;
+}
+
+/* 规则提示 */
+.rules-tip {
+  text-align: center;
+  color: #9ca3af;
+  font-size: 26rpx;
+}

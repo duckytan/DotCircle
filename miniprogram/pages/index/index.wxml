@@ -1,0 +1,118 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 顶部搜索和筛选 -->
+  <view class="header-section">
+    <view class="search-bar">
+      <view class="search-input">
+        <text class="search-icon">🔍</text>
+        <input placeholder="搜索礼包" bindinput="onSearchInput" />
+      </view>
+    </view>
+    
+    <!-- 类型筛选 -->
+    <view class="filter-tabs">
+      <view class="tab {{currentTab === 'all' ? 'active' : ''}}" bindtap="switchTab" data-tab="all">
+        全部
+      </view>
+      <view class="tab {{currentTab === 'link' ? 'active' : ''}}" bindtap="switchTab" data-tab="link">
+        链接
+      </view>
+      <view class="tab {{currentTab === 'image' ? 'active' : ''}}" bindtap="switchTab" data-tab="image">
+        图片
+      </view>
+    </view>
+  </view>
+
+  <!-- 礼包列表 -->
+  <view class="package-list">
+    <block wx:if="{{packages.length > 0}}">
+      <view class="package-card" wx:for="{{packages}}" wx:key="_id" bindtap="goToDetail" data-id="{{item._id}}">
+        <!-- 发布者信息 -->
+        <view class="publisher-info">
+          <view class="avatar-section">
+            <image class="avatar" src="{{item.publisher.avatarUrl || '/assets/default-avatar.png'}}" mode="aspectFill" />
+            <view class="credit-badge {{item.publisher.creditLevel}}">
+              {{item.publisher.creditBadge}}
+            </view>
+          </view>
+          <view class="publisher-meta">
+            <text class="nickname">{{item.publisher.nickname}}</text>
+            <text class="publish-time">{{item.publishTime}}</text>
+          </view>
+          <view class="package-type-icon">
+            <text wx:if="{{item.type === 'LINK'}}">🔗</text>
+            <text wx:else>📱</text>
+          </view>
+        </view>
+
+        <!-- 礼包内容 -->
+        <view class="package-content">
+          <view class="content-box {{item.type === 'LINK' ? 'link-box' : 'image-box'}}">
+            <block wx:if="{{item.type === 'LINK'}}">
+              <view class="link-indicator">
+                <text class="link-icon">🔗</text>
+                <text class="link-text">元宝抽奖链接</text>
+              </view>
+            </block>
+            <block wx:else>
+              <view class="image-preview">
+                <image src="{{item.imageUrl}}" mode="aspectFill" lazy-load />
+              </view>
+            </block>
+          </view>
+        </view>
+
+        <!-- 进度和操作 -->
+        <view class="package-footer">
+          <view class="progress-section">
+            <view class="progress-bar">
+              <view class="progress-fill" style="width: {{item.progressPercent}}%"></view>
+            </view>
+            <view class="progress-text">
+              <text>还差 <text class="highlight">{{item.remaining}}人</text> 领满</text>
+            </view>
+          </view>
+          
+          <view class="helpers-avatar">
+            <view class="avatar-stack">
+              <image wx:for="{{item.recentHelpers}}" wx:key="index" class="helper-avatar" src="{{item.avatarUrl}}" mode="aspectFill" />
+              <view wx:if="{{item.helpCount > 3}}" class="more-badge">+{{item.helpCount - 3}}</view>
+            </view>
+          </view>
+
+          <button class="help-btn {{item.canHelp ? '' : 'disabled'}}" 
+                  catchtap="onHelpPackage" 
+                  data-id="{{item._id}}"
+                  disabled="{{!item.canHelp}}">
+            {{item.canHelp ? '去领取' : '已领取'}}
+          </button>
+        </view>
+
+        <!-- 曝光值 -->
+        <view class="exposure-score">
+          <text class="score-icon">👁</text>
+          <text class="score-text">曝光值: {{item.exposureScore}}</text>
+        </view>
+      </view>
+    </block>
+
+    <!-- 空状态 -->
+    <view wx:if="{{packages.length === 0 && !loading}}" class="empty-state">
+      <text class="empty-icon">📦</text>
+      <text class="empty-text">暂无礼包，快去发布吧！</text>
+    </view>
+  </view>
+
+  <!-- 加载更多 -->
+  <view wx:if="{{hasMore && !loading}}" class="load-more" bindtap="loadMore">
+    <text>加载更多</text>
+  </view>
+  <view wx:if="{{loading}}" class="loading">
+    <view class="loading-spinner"></view>
+  </view>
+</view>
+
+<!-- 悬浮发布按钮 -->
+<view class="fab-button" bindtap="goToPublish">
+  <text class="fab-icon">+</text>
+</view>
