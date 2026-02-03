@@ -21,36 +21,84 @@ export default function LoginPage() {
     setLoading(true)
     setError('')
 
+    // DEBUG: 输出环境变量（注意：生产环境不要这样做）
+    console.log('=== DEBUG INFO ===')
+    console.log('Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL)
+    console.log('Email:', email)
+    console.log('Password length:', password.length)
+    console.log('==================')
+
     try {
+      console.log('Step 1: Calling signInWithPassword...')
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       })
 
-      if (error) throw error
+      console.log('Step 2: signInWithPassword response:', { data, error })
+
+      if (error) {
+        console.error('Login error details:', {
+          message: error.message,
+          status: error.status,
+          name: error.name,
+          stack: error.stack,
+        })
+        throw error
+      }
+
+      if (!data.user) {
+        throw new Error('登录成功但没有返回用户信息')
+      }
+
+      console.log('Step 3: User authenticated:', data.user.id)
 
       // 检查用户是否已创建资料
-      const { data: userData } = await supabase
+      console.log('Step 4: Checking user profile...')
+      const { data: userData, error: userError } = await supabase
         .from('users')
         .select('*')
         .eq('id', data.user.id)
         .single()
 
+      console.log('Step 5: User profile query result:', { userData, userError })
+
+      if (userError && userError.code !== 'PGRST116') {
+        console.error('Profile check error:', userError)
+      }
+
       if (!userData) {
-        // 创建用户资料
-        await supabase.from('users').insert({
+        console.log('Step 6: Creating user profile...')
+        const { error: insertError } = await supabase.from('users').insert({
           id: data.user.id,
           email: data.user.email,
           nick_name: email.split('@')[0],
         })
+        
+        if (insertError) {
+          console.error('Profile creation error:', insertError)
+          throw insertError
+        }
+        console.log('Step 7: User profile created successfully')
+      } else {
+        console.log('Step 6: User profile already exists')
       }
 
+      console.log('Step 8: Redirecting to home...')
       router.push('/')
       router.refresh()
     } catch (err: any) {
+      console.error('=== LOGIN FAILED ===')
+      console.error('Error:', err)
+      console.error('Error message:', err.message)
+      console.error('Error status:', err.status)
+      console.error('Error code:', err.code)
+      console.error('====================')
+      
       setError(err.message || '登录失败')
     } finally {
       setLoading(false)
+      console.log('Login process completed')
     }
   }
 

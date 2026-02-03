@@ -36,20 +36,33 @@ export default function RegisterPage() {
       return
     }
 
+    console.log('=== REGISTER DEBUG ===')
+    console.log('Email:', email)
+    console.log('Password length:', password.length)
+    console.log('NickName:', nickName)
+    console.log('=======================')
+
     try {
       // 1. 注册 Supabase Auth (带重试机制)
+      console.log('Step 1: Starting signUp process...')
       let authData: any = null
       let authError: any = null
       let retries = 0
       const maxRetries = 3
 
       while (retries < maxRetries) {
+        console.log(`Attempt ${retries + 1}/${maxRetries}...`)
         const result = await supabase.auth.signUp({
           email,
           password,
         })
         authData = result.data
         authError = result.error
+
+        console.log('signUp result:', { 
+          data: authData ? 'has data' : 'no data', 
+          error: authError ? { message: authError.message, status: authError.status } : null 
+        })
 
         if (!authError) break
 
@@ -66,19 +79,38 @@ export default function RegisterPage() {
         }
       }
 
-      if (authError) throw authError
+      if (authError) {
+        console.error('Final auth error:', authError)
+        throw authError
+      }
 
       if (authData.user) {
+        console.log('Step 2: Auth user created:', authData.user.id)
+        
         // 2. 创建用户资料
-        const { error: profileError } = await supabase.from('users').insert({
+        console.log('Step 3: Creating user profile...')
+        const profileData = {
           id: authData.user.id,
           email: authData.user.email,
           nick_name: nickName || email.split('@')[0],
           credit_score: 60,
           credit_level: 'NORMAL',
-        })
+        }
+        console.log('Profile data:', profileData)
+        
+        const { error: profileError, data: profileResult } = await supabase.from('users').insert(profileData)
 
-        if (profileError) throw profileError
+        if (profileError) {
+          console.error('Profile creation error:', {
+            message: profileError.message,
+            code: profileError.code,
+            details: profileError.details,
+            hint: profileError.hint,
+          })
+          throw profileError
+        }
+        
+        console.log('Step 4: Profile created successfully')
 
         setSuccess(true)
         
@@ -88,6 +120,12 @@ export default function RegisterPage() {
         }, 3000)
       }
     } catch (err: any) {
+      console.error('=== REGISTER FAILED ===')
+      console.error('Error:', err)
+      console.error('Error message:', err.message)
+      console.error('Error status:', err.status)
+      console.error('Error code:', err.code)
+      console.error('=======================')
       setError(err.message || '注册失败')
     } finally {
       setLoading(false)
