@@ -37,11 +37,34 @@ export default function RegisterPage() {
     }
 
     try {
-      // 1. 注册 Supabase Auth
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email,
-        password,
-      })
+      // 1. 注册 Supabase Auth (带重试机制)
+      let authData: any = null
+      let authError: any = null
+      let retries = 0
+      const maxRetries = 3
+
+      while (retries < maxRetries) {
+        const result = await supabase.auth.signUp({
+          email,
+          password,
+        })
+        authData = result.data
+        authError = result.error
+
+        if (!authError) break
+
+        // 如果是 429 错误，等待后重试
+        if (authError.status === 429) {
+          retries++
+          if (retries < maxRetries) {
+            const waitTime = 2000 * retries // 2秒, 4秒, 6秒
+            setError(`注册过于频繁，${waitTime / 1000}秒后重试...`)
+            await new Promise(resolve => setTimeout(resolve, waitTime))
+          }
+        } else {
+          break // 其他错误直接跳出
+        }
+      }
 
       if (authError) throw authError
 
