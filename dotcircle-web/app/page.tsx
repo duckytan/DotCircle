@@ -1,23 +1,39 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { Header } from '@/components/layout/header'
 import { BottomNav } from '@/components/layout/bottom-nav'
 import { PackageCard } from '@/components/packages/package-card'
 import { Button } from '@/components/ui/button'
 import { supabase } from '@/lib/supabase/client'
 import type { Package } from '@/types'
-import { Search } from 'lucide-react'
+import { Search, User } from 'lucide-react'
 
 export default function HomePage() {
   const [packages, setPackages] = useState<Package[]>([])
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
+  const [user, setUser] = useState<any>(null)
 
+  // 获取当前用户
   useEffect(() => {
+    checkUser()
     loadPackages()
+    
+    // 监听认证状态变化
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+    })
+    
+    return () => subscription.unsubscribe()
   }, [activeTab])
+  
+  async function checkUser() {
+    const { data: { user } } = await supabase.auth.getUser()
+    setUser(user)
+  }
 
   async function loadPackages() {
     setLoading(true)
@@ -82,7 +98,27 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
-      <Header title="点点圈" />
+      {/* 带用户状态的 Header */}
+      <header className="sticky top-0 z-50 gradient-primary text-white">
+        <div className="flex items-center justify-between h-14 px-4 max-w-lg mx-auto">
+          <div className="w-10" />
+          
+          <h1 className="text-lg font-semibold">点点圈</h1>
+          
+          {/* 用户登录状态 */}
+          <div className="w-10 flex justify-end">
+            {user ? (
+              <Link href="/my" className="p-2 -mr-2 hover:bg-white/20 rounded-full transition-colors">
+                <User className="w-5 h-5" />
+              </Link>
+            ) : (
+              <Link href="/login" className="text-xs bg-white/20 px-2 py-1 rounded hover:bg-white/30 transition-colors">
+                登录
+              </Link>
+            )}
+          </div>
+        </div>
+      </header>
 
       {/* 搜索栏 */}
       <div className="bg-white p-3 sticky top-14 z-40">
