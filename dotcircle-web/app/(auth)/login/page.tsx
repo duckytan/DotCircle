@@ -1,0 +1,152 @@
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { supabase } from '@/lib/supabase/client'
+import { Eye, EyeOff, Loader2 } from 'lucide-react'
+
+export default function LoginPage() {
+  const router = useRouter()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault()
+    setLoading(true)
+    setError('')
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+
+      if (error) throw error
+
+      // 检查用户是否已创建资料
+      const { data: userData } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', data.user.id)
+        .single()
+
+      if (!userData) {
+        // 创建用户资料
+        await supabase.from('users').insert({
+          id: data.user.id,
+          email: data.user.email,
+          nick_name: email.split('@')[0],
+        })
+      }
+
+      router.push('/')
+      router.refresh()
+    } catch (err: any) {
+      setError(err.message || '登录失败')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      {/* Header */}
+      <header className="gradient-primary text-white">
+        <div className="flex items-center justify-center h-14 px-4">
+          <h1 className="text-lg font-semibold">登录</h1>
+        </div>
+      </header>
+
+      <div className="flex-1 flex flex-col justify-center p-4 max-w-md mx-auto w-full">
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <div className="w-20 h-20 gradient-primary rounded-2xl mx-auto flex items-center justify-center text-white text-3xl font-bold mb-4">
+            ⊙
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900">欢迎回来</h2>
+          <p className="text-gray-500 mt-2">登录后继续互助之旅</p>
+        </div>
+
+        <Card className="p-6">
+          <form onSubmit={handleLogin} className="space-y-4">
+            {error && (
+              <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg">
+                {error}
+              </div>
+            )}
+
+            <div>
+              <label className="block text-sm font-medium mb-2">邮箱</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="请输入邮箱"
+                className="w-full px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 focus:border-orange-500 focus:outline-none"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">密码</label>
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="请输入密码"
+                  className="w-full px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 focus:border-orange-500 focus:outline-none pr-12"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
+            </div>
+
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 gradient-primary text-white font-semibold"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  登录中...
+                </>
+              ) : (
+                '登录'
+              )}
+            </Button>
+          </form>
+
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-500">
+              还没有账号？{' '}
+              <Link href="/register" className="text-orange-500 font-semibold">
+                立即注册
+              </Link>
+            </p>
+          </div>
+        </Card>
+
+        {/* 返回首页 */}
+        <div className="text-center mt-6">
+          <Link href="/" className="text-sm text-gray-400 hover:text-gray-600">
+            ← 返回首页
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}
