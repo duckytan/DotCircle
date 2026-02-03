@@ -95,7 +95,18 @@ export default function LoginPage() {
       console.error('Error code:', err.code)
       console.error('====================')
       
-      setError(err.message || '登录失败')
+      // 提供更友好的错误提示
+      let errorMessage = err.message || '登录失败'
+      
+      if (err.message?.includes('Invalid login credentials')) {
+        errorMessage = '账号或密码错误。如果是新用户，请先注册。'
+      } else if (err.status === 429) {
+        errorMessage = '登录过于频繁，请稍后再试。'
+      } else if (err.message?.includes('Email not confirmed')) {
+        errorMessage = '邮箱未确认，请检查您的邮箱。'
+      }
+      
+      setError(errorMessage)
     } finally {
       setLoading(false)
       console.log('Login process completed')
